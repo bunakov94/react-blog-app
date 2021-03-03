@@ -1,12 +1,18 @@
 import React from 'react';
-import SomeBlock from '../../blocks/SomeBlock';
 
 import style from './Header.module.scss';
 
 const Header: React.FC = () => (
-  <header>
-    <h1 className={style.header}>Hello from Header</h1>
-    <SomeBlock />
+  <header className={style.header}>
+    <a className={style.logo}>Realworld Blog</a>
+    <div className="auth">
+      <button type="button" className={`${style.button} ${style.signIn}`}>
+        Sign In
+      </button>
+      <button type="button" className={`${style.button} ${style.signUp}`}>
+        Sign Up
+      </button>
+    </div>
   </header>
 );
 

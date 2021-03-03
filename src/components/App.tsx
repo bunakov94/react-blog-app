@@ -1,11 +1,14 @@
 import React from 'react';
+import 'focus-visible';
+import ArticleList from './layout/ArticleList';
 import Header from './layout/Header';
-import Footer from './layout/Footer';
 
 const App: React.FC = () => (
   <>
     <Header />
-    <Footer />
+    <main className="main-content">
+      <ArticleList />
+    </main>
   </>
 );
 

@@ -1,0 +1,43 @@
+@import '~normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+@import './assets/scss/vars.scss';
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background: $background-secondary;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.main-content {
+  max-width: 940px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid $primary-color;
+}
