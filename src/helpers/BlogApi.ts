@@ -15,26 +15,12 @@ class BlogApi {
     const response = await this.getResources(`/articles?${limit(10, pageNumber)}`);
     return response.articles;
   }
+
+  async getPost(slug: string) {
+    const response = await this.getResources(`/articles/${slug}`);
+    return response.article;
+  }
 }
-
-// const aaa = {
-//   author: {
-//     bio: null,
-//     following: false,
-//     image: 'https://static.productionready.io/images/smiley-cyrus.jpg',
-//     username: 'malavita',
-//   },
-
-//   body: 'hello world',
-//   createdAt: '2021-03-02T19:38:06.044Z',
-//   description: 'world',
-//   favorited: false,
-//   favoritesCount: 0,
-//   slug: 'hello-ksmdj9',
-//   tagList: [],
-//   title: 'hello',
-//   updatedAt: '2021-03-02T19:38:06.044Z',
-// };
 
 const blogApi = new BlogApi();
 

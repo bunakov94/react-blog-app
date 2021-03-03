@@ -22,11 +22,14 @@ export interface IArticle {
 export interface IArticleList {
   articleList: IArticle[];
   currentPage: number;
+  currentArticle: IArticle | {};
 }
 
-export interface IArticleListProps extends IArticleList {
-  setArticles: (payload: IArticle[]) => { type: ActionTypes.SET_ARTICLES; payload: IArticle[] };
-  // setCurrentPage: (payload: number) => { type: ActionTypes.SET_CURRENT_PAGE; payload: number };
+export interface IArticleListProps {
+  articleList: IArticle[];
+  currentPage: number;
+  setArticles: (payload: IArticle[]) => void;
+  setCurrentPage: (payload: number) => void;
 }
 
 export interface IState {
