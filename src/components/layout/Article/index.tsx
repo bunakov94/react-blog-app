@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import style from './Article.module.scss';
 import { IArticle } from '../../../types/interfaces';
 
-interface IArticleProps extends IArticle {
+interface IProps extends IArticle {
   isFullArticle?: boolean;
 }
 
-const Article = ({
+const Article: React.FC<IProps> = ({
   title,
   favoritesCount,
   tagList,
@@ -18,7 +18,7 @@ const Article = ({
   body,
   slug,
   isFullArticle,
-}: IArticleProps) => {
+}: IProps) => {
   const url = `articles/${slug}`;
 
   return (

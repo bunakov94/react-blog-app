@@ -7,13 +7,13 @@ import blogApi from '../../../helpers/BlogApi';
 import { IArticle, IState } from '../../../types/interfaces';
 import Article from '../../layout/Article';
 
-interface IArticleProps {
+interface IProps {
   setCurrentArticle: (payload: IArticle) => void;
   currentArticle: IArticle;
   slug: string;
 }
 
-const SingleArticlePage = ({ setCurrentArticle, currentArticle, slug }: IArticleProps) => {
+const SingleArticlePage: React.FC<IProps> = ({ setCurrentArticle, currentArticle, slug }: IProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 

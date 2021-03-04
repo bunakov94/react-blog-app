@@ -1,4 +1,4 @@
-import { IArticleList } from '../../types/interfaces';
+import { IArticlesState } from '../../types/interfaces';
 import ActionTypes from '../actionTypes';
 
 const curA = {
@@ -27,7 +27,7 @@ interface IAction {
 }
 
 export default function articles(
-  state: IArticleList = { articleList: [], currentPage: 1, currentArticle: curA },
+  state: IArticlesState = { articleList: [], currentPage: 1, currentArticle: curA },
   action: IAction,
 ) {
   switch (action.type) {

@@ -17,12 +17,12 @@ export interface IArticle {
   updatedAt: string;
 }
 
-export interface IArticleList {
+export interface IArticlesState {
   articleList: IArticle[];
   currentPage: number;
   currentArticle: IArticle;
 }
 
 export interface IState {
-  articles: IArticleList;
+  articles: IArticlesState;
 }

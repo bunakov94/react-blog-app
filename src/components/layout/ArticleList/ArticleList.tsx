@@ -9,14 +9,14 @@ import style from './ArticleList.module.scss';
 import Error from '../../blocks/Error';
 import Spinner from '../../blocks/Spinner';
 
-interface IArticleListProps {
+interface IProps {
   articleList: IArticle[];
   currentPage: number;
   setArticles: (payload: IArticle[]) => void;
   setCurrentPage: (payload: number) => void;
 }
 
-const ArticleList = ({ setArticles, setCurrentPage, articleList, currentPage }: IArticleListProps) => {
+const ArticleList: React.FC<IProps> = ({ setArticles, setCurrentPage, articleList, currentPage }: IProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
