@@ -1,10 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import style from './Header.module.scss';
 
 const Header: React.FC = () => (
   <header className={style.header}>
-    <a className={style.logo}>Realworld Blog</a>
+    <Link to="/" className={style.logo}>
+      Realworld Blog
+    </Link>
     <div className="auth">
       <button type="button" className={`${style.button} ${style.signIn}`}>
         Sign In

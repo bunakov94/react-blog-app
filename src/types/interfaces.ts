@@ -1,5 +1,3 @@
-import ActionTypes from '../redux/actionTypes';
-
 export interface IArticle {
   author: {
     bio: null | string;
@@ -22,14 +20,7 @@ export interface IArticle {
 export interface IArticleList {
   articleList: IArticle[];
   currentPage: number;
-  currentArticle: IArticle | {};
-}
-
-export interface IArticleListProps {
-  articleList: IArticle[];
-  currentPage: number;
-  setArticles: (payload: IArticle[]) => void;
-  setCurrentPage: (payload: number) => void;
+  currentArticle: IArticle;
 }
 
 export interface IState {

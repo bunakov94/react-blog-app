@@ -1,0 +1,121 @@
+@import '../../../assets/scss/vars';
+
+.article {
+  padding: 15px;
+  background: $background-color-base;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  &Header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &Info {
+    .title {
+      display: flex;
+      align-items: center;
+      margin: 0;
+      &Description {
+        margin-right: 13px;
+        font-size: $font-size-sm;
+        line-height: 28px;
+        font-weight: normal;
+        color: $info-color;
+
+        @media screen and (min-width: 426px) {
+          font-size: $font-size-extra-large;
+        }
+
+        > a {
+          text-decoration: none;
+        }
+      }
+
+      .like {
+        display: flex;
+        height: 100%;
+        background: url("../../../assets/images/like.svg") transparent no-repeat left;
+        padding: 0;
+        border: none;
+        cursor: pointer;
+
+        .count {
+          font-size: $font-size-sm;
+          line-height: 22px;
+          color: $text-color;
+          padding-left: 20px;
+        }
+      }
+    }
+  }
+
+  &Tags {
+    display: flex;
+    padding: 0;
+    list-style: none;
+    .tag {
+      margin: 5px 8px 0 0;
+      font-size: $font-size-sm;
+      color: $text-color-secondary;
+      line-height: 15px;
+      padding: 2px 5px;
+      border: 1px solid $text-color-secondary;
+      border-radius: 2px;
+    }
+  }
+
+  &Footer {
+    font-size: $font-size-sm;
+    color: $text-color;
+    margin-top: 10px;
+  }
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  text-align: right;
+  height: 46px;
+  &Info {
+    margin: 0;
+  }
+
+  &Name {
+    font-size: $font-size-sm;
+    line-height: 28px;
+
+    @media screen and (min-width: 426px) {
+      font-size: $font-size-large;
+    }
+  }
+
+  &Avatar {
+    display: none;
+    border-radius: 50%;
+    margin-left: 12px;
+
+    @media screen and (min-width: 350px) {
+      display: block;
+      width: 46px;
+      height: 46px;
+    }
+  }
+
+  .date {
+    font-size: $font-size-sm;
+    line-height: 22px;
+    color: $text-color-secondary;
+  }
+}
+
+.container {
+  margin-top: 24px;
+  padding: 0 15px;
+}
+
+.body {
+  margin-top: 25px;
+}
+
+
+

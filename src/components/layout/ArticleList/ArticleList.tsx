@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Pagination, Spin, Alert } from 'antd';
+import { Pagination } from 'antd';
 import blogApi from '../../../helpers/BlogApi';
 import * as actions from '../../../redux/actions/articles';
-import { IArticle, IState, IArticleListProps } from '../../../types/interfaces';
-import Article from '../../blocks/ArticleListItem';
+import { IArticle, IState } from '../../../types/interfaces';
+import ArticleListItem from '../../blocks/ArticleListItem';
 import style from './ArticleList.module.scss';
+import Error from '../../blocks/Error';
+import Spinner from '../../blocks/Spinner';
+
+interface IArticleListProps {
+  articleList: IArticle[];
+  currentPage: number;
+  setArticles: (payload: IArticle[]) => void;
+  setCurrentPage: (payload: number) => void;
+}
 
 const ArticleList = ({ setArticles, setCurrentPage, articleList, currentPage }: IArticleListProps) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,24 +33,12 @@ const ArticleList = ({ setArticles, setCurrentPage, articleList, currentPage }: 
     })();
   }, [setArticles, currentPage]);
 
-  const spinner = (
-    <div className={style.spin}>
-      <Spin />
-    </div>
-  );
-
-  const error = (
-    <div className={style.error}>
-      <Alert message="Error" description="Something went wrong. Try it again." type="error" showIcon />
-    </div>
-  );
-
   const articles = (
     <>
       <ul className={style.ArticleList}>
         {articleList.map((article: IArticle) => (
           <li key={`${article.slug} ${article.createdAt}`} className={style.article}>
-            <Article article={article} />
+            <ArticleListItem article={article} />
           </li>
         ))}
       </ul>
@@ -56,9 +53,9 @@ const ArticleList = ({ setArticles, setCurrentPage, articleList, currentPage }: 
     </>
   );
 
-  const content = isError ? error : articles;
+  const content = isError ? <Error /> : articles;
 
-  return <>{isLoading ? spinner : content}</>;
+  return <>{isLoading ? <Spinner /> : content}</>;
 };
 
 const mapStateToProps = (state: IState) => ({
