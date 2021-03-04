@@ -22,6 +22,10 @@
         font-weight: normal;
         color: $info-color;
 
+        &:focus-visible {
+          outline: 2px solid $primary-color;
+        }
+
         @media screen and (min-width: 426px) {
           font-size: $font-size-extra-large;
         }
