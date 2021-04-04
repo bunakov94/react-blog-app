@@ -1,3 +1,5 @@
+import { IUser } from '../redux/reducers/user';
+
 export interface IArticle {
   author: {
     bio: null | string;
@@ -25,4 +27,5 @@ export interface IArticlesState {
 
 export interface IState {
   articles: IArticlesState;
+  user: IUser;
 }
