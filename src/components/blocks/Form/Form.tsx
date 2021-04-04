@@ -8,8 +8,7 @@ import * as actions from '../../../redux/actions/user';
 import { setUserToken } from '../../../helpers/localStorage';
 
 import style from './Form.module.scss';
-import { IState } from '../../../types/interfaces';
-import { IUser } from '../../../redux/reducers/user';
+import { IState, IUser } from '../../../types/interfaces';
 
 interface IFormInput {
   username: string;
@@ -19,7 +18,50 @@ interface IFormInput {
   token: string;
 }
 
-const Username = ({ register, errors, serverErrors, hasError, value }: any) => {
+interface IClientErrors {
+  username?: { message: string };
+  password?: { message: string };
+  password_repeat?: { message: string };
+  email?: { message: string };
+  acceptTerms?: { message: string };
+  avatar?: { message: string };
+}
+
+interface IServerErrors {
+  username?: string[];
+  password?: string[];
+  email?: string[];
+}
+
+interface IServerErrorsBundle {
+  serverErrors: IServerErrors;
+  hasError: boolean;
+}
+
+interface IFormElementsProps {
+  register: ReturnType<typeof useForm>['register'];
+  errors: IClientErrors;
+}
+
+interface IUserNameProps extends IFormElementsProps, IServerErrorsBundle {
+  value?: string;
+}
+
+interface IEmailProps extends IFormElementsProps, IServerErrorsBundle {
+  value?: string;
+}
+
+interface IPasswordProps extends IFormElementsProps, IServerErrorsBundle {}
+
+interface IConfirmPasswordProps extends IFormElementsProps {
+  password: { current: string };
+}
+
+interface IAcceptTermsProps extends IFormElementsProps {}
+
+interface IAvatarProps extends IFormElementsProps {}
+
+const Username: React.FC<IUserNameProps> = ({ register, errors, serverErrors, hasError, value }: IUserNameProps) => {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
@@ -36,7 +78,7 @@ const Username = ({ register, errors, serverErrors, hasError, value }: any) => {
           className={cn(
             `${style.formInput}`,
             { [style.error]: errors.username },
-            { [style.error]: serverErrors.username },
+            { [style.error]: serverErrors?.username },
           )}
           placeholder="Username"
           ref={register({
@@ -54,15 +96,17 @@ const Username = ({ register, errors, serverErrors, hasError, value }: any) => {
           value={inputValue}
         />
       </label>
-      {errors.username && <p className={style.errorMessage}>{errors.username.message}</p>}
-      {hasError && serverErrors.username && serverErrors.username && (
-        <p className={style.errorMessage}>{serverErrors.username[0]}</p>
-      )}
+      <p className={style.errorMessage}>{errors?.username?.message}</p>
+      {hasError && serverErrors.username && <p className={style.errorMessage}>{serverErrors.username[0]}</p>}
     </>
   );
 };
 
-const Email = ({ register, errors, serverErrors, hasError, value }: any) => {
+Username.defaultProps = {
+  value: '',
+};
+
+const Email: React.FC<IEmailProps> = ({ register, errors, serverErrors, hasError, value }: IEmailProps) => {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
@@ -89,13 +133,17 @@ const Email = ({ register, errors, serverErrors, hasError, value }: any) => {
           value={inputValue}
         />
       </label>
-      {errors.email && <p className={style.errorMessage}>{errors.email.message}</p>}
+      <p className={style.errorMessage}>{errors?.email?.message}</p>
       {hasError && serverErrors.email && <p className={style.errorMessage}>{serverErrors.email[0]}</p>}
     </>
   );
 };
 
-const Password = ({ register, errors, serverErrors, hasError }: any) => (
+Email.defaultProps = {
+  value: '',
+};
+
+const Password: React.FC<IPasswordProps> = ({ register, errors, serverErrors, hasError }: IPasswordProps) => (
   <>
     <label className={style.formItem}>
       Password
@@ -121,12 +169,12 @@ const Password = ({ register, errors, serverErrors, hasError }: any) => (
         })}
       />
     </label>
-    {errors.password && <p className={style.errorMessage}>{errors.password.message}</p>}
+    <p className={style.errorMessage}>{errors?.password?.message}</p>
     {hasError && serverErrors.password && <p className={style.errorMessage}>{serverErrors.password[0]}</p>}
   </>
 );
 
-const ConfirmPassword = ({ register, errors, password }: any) => (
+const ConfirmPassword: React.FC<IConfirmPasswordProps> = ({ register, errors, password }: IConfirmPasswordProps) => (
   <>
     <label className={style.formItem}>
       Repeat Password
@@ -136,31 +184,31 @@ const ConfirmPassword = ({ register, errors, password }: any) => (
         placeholder="Password"
         className={cn(`${style.formInput}`, { [style.error]: errors.password_repeat })}
         ref={register({
-          validate: (value: any) => value === password.current || 'The passwords do not match',
+          validate: (value: string) => value === password.current || 'The passwords do not match',
         })}
       />
     </label>
-    {errors.password_repeat && <p className={style.errorMessage}>{errors.password_repeat.message}</p>}
+    <p className={style.errorMessage}>{errors?.password_repeat?.message}</p>
   </>
 );
 
-const AcceptTerm = ({ register, errors }: any) => (
+const AcceptTerm: React.FC<IAcceptTermsProps> = ({ register, errors }: IAcceptTermsProps) => (
   <>
     <label className={style.input}>
       <input
         className={style.inputInput}
         type="checkbox"
-        ref={register({ validate: (value: any) => value === true || 'Field is required' })}
+        ref={register({ validate: (value: boolean) => value || 'Field is required' })}
         name="acceptTerms"
       />
       <span className={cn(`${style.inputCheckmark}`, { [style.error]: errors.acceptTerms })} />
       <span className={style.inputLabel}>I agree to the processing of my personal information</span>
     </label>
-    {errors.acceptTerms && <p className={style.errorMessage}>{errors.acceptTerms.message}</p>}
+    <p className={style.errorMessage}>{errors?.acceptTerms?.message}</p>
   </>
 );
 
-const Avatar = ({ register, errors }: any) => (
+const Avatar: React.FC<IAvatarProps> = ({ register, errors }: IAvatarProps) => (
   <>
     <label className={style.formItem}>
       Avatar
@@ -177,22 +225,22 @@ const Avatar = ({ register, errors }: any) => (
         })}
       />
     </label>
-    {errors.avatar && <p className={style.errorMessage}>{errors.avatar.message}</p>}
+    <p className={style.errorMessage}>{errors?.avatar?.message}</p>
   </>
 );
 
 interface IProps {
   type?: string;
-  setUser: Function;
+  setUser: (payload: IUser) => void;
   userData: IUser;
 }
 
 const Form = ({ type, setUser, userData }: IProps) => {
   const history = useHistory();
-  const [serverErrors, setServerErrors] = useState({});
+  const [serverErrors, setServerErrors] = useState({} as IServerErrors);
   const [hasError, setHasError] = useState(false);
   const { register, errors, handleSubmit, watch } = useForm({});
-  const password = useRef({});
+  const password = useRef({}) as { current: string };
   password.current = watch('password', '');
 
   const onRegistration = async (data: IFormInput) => {
