@@ -3,15 +3,14 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../../redux/actions/user';
 import style from './Header.module.scss';
-import { IState } from '../../../types/interfaces';
-import { IUser } from '../../../redux/reducers/user';
+import { IState, IUser } from '../../../types/interfaces';
 import { getUserToken, removeUserToken } from '../../../helpers/localStorage';
 
 import Avatar from '../../../assets/images/Avatar.png';
 
 interface IProps {
   user: IUser;
-  setUser: Function;
+  setUser: (payload: IUser) => void;
 }
 
 const Header: React.FC<IProps> = ({ user, setUser }: IProps) => {
@@ -47,7 +46,7 @@ const Header: React.FC<IProps> = ({ user, setUser }: IProps) => {
               to="/"
               onClick={() => {
                 removeUserToken();
-                setUser({});
+                setUser({} as IUser);
               }}
               className={`${style.button} ${style.logOut}`}
             >

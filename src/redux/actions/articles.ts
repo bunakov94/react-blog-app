@@ -1,6 +1,6 @@
-import { IArticle } from '../../types/interfaces';
-import { SetCurrentPageAction, SetArticlesAction, SetArticleAction } from '../types/types';
-import ActionTypes from '../types/actionTypes';
+import { IArticle, SetCurrentPageAction, SetArticlesAction, SetArticleAction } from '../../types/interfaces';
+
+import ActionTypes from '../../types/actionTypes';
 
 export const setArticles = (payload: IArticle[]): SetArticlesAction => ({
   type: ActionTypes.SET_ARTICLES,

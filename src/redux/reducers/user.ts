@@ -1,17 +1,11 @@
-export interface IUser {
-  bio: string | null;
-  createdAt: string;
-  email: string;
-  id: number;
-  image: string | null;
-  token: string;
-  updatedAt: string;
-  username: string;
-}
+import ActionTypes from '../../types/actionTypes';
+import { ISetUser, IUser } from '../../types/interfaces';
 
-export default function user(state: IUser = {} as IUser, action: any) {
+type TActionTypes = ISetUser;
+
+export default function user(state: IUser = {} as IUser, action: TActionTypes) {
   switch (action.type) {
-    case 'SET_USER':
+    case ActionTypes.SET_USER:
       return { ...action.payload };
 
     default:

@@ -1,12 +1,18 @@
-import { IArticlesState, IArticle } from '../../types/interfaces';
-import { SetArticleAction, SetArticlesAction, SetCurrentPageAction } from '../types/types';
-import ActionTypes from '../types/actionTypes';
+import {
+  IArticlesState,
+  IArticle,
+  SetArticleAction,
+  SetArticlesAction,
+  SetCurrentPageAction,
+} from '../../types/interfaces';
 
-type IAction = SetArticlesAction | SetArticleAction | SetCurrentPageAction;
+import ActionTypes from '../../types/actionTypes';
+
+type TAction = SetArticlesAction | SetArticleAction | SetCurrentPageAction;
 
 export default function articles(
   state: IArticlesState = { articleList: [], currentPage: 1, currentArticle: {} as IArticle },
-  action: IAction,
+  action: TAction,
 ) {
   switch (action.type) {
     case ActionTypes.SET_ARTICLES:

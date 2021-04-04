@@ -12,9 +12,10 @@ import SignUpPage from './pages/SignUpPage';
 import ProfilePage from './pages/ProfilePage';
 import { getUserToken } from '../helpers/localStorage';
 import * as actions from '../redux/actions/user';
+import { IUser } from '../types/interfaces';
 
 interface IProps {
-  setUser: Function;
+  setUser: (payload: IUser) => void;
 }
 
 const App: React.FC<IProps> = ({ setUser }: IProps) => {
