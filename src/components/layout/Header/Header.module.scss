@@ -7,6 +7,10 @@
   height: 80px;
   padding: 0 20px;
   background: $background-color-base;
+
+  @media screen and (max-width: 767px) {
+    height: 115px;
+  }
 }
 
 .logo {
@@ -61,5 +65,47 @@
 
   @media screen and (min-width: 400px) {
     margin-left: 19px;
+  }
+}
+
+.logOut {
+  color: $text-color;
+  border: 1px solid $text-color;
+
+  &:hover {
+    background: $text-color;
+    color: white;
+    border-color: $text-color;
+  }
+}
+
+.profile {
+  & > img {
+    margin-left: 10px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+  }
+
+  &:hover {
+    color: $text-color;
+  }
+}
+
+.userInfo {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: flex-end;
+  align-items: center;
+
+  @media screen and (max-width: 767px) {
+    margin-top: 5px;
+    .profile {
+      order: 1;
+      margin-bottom: 5px;
+    }
+    .logOut {
+      margin-left: 10px;
+    }
   }
 }

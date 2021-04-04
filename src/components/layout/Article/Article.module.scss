@@ -38,7 +38,7 @@
       .like {
         display: flex;
         height: 100%;
-        background: url("../../../assets/images/like.svg") transparent no-repeat left;
+        background: url('../../../assets/images/like.svg') transparent no-repeat left;
         padding: 0;
         border: none;
         cursor: pointer;
@@ -68,10 +68,14 @@
     }
   }
 
-  &Footer {
+  &Description {
     font-size: $font-size-sm;
     color: $text-color;
     margin-top: 10px;
+  }
+
+  &Body {
+    margin-top: 25px;
   }
 }
 
@@ -116,10 +120,3 @@
   margin-top: 24px;
   padding: 0 15px;
 }
-
-.body {
-  margin-top: 25px;
-}
-
-
-
