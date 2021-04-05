@@ -2,8 +2,8 @@
 
 .article {
   padding: 15px;
-  background: $background-color-base;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: $background-color-base;
 
   &Header {
     display: flex;
@@ -15,19 +15,20 @@
       display: flex;
       align-items: center;
       margin: 0;
+
       &Description {
-        margin-right: 13px;
+
+        @media screen and ( min-width: 426px ) {
+          font-size: $font-size-extra-large;
+        }
         font-size: $font-size-sm;
-        line-height: 28px;
         font-weight: normal;
+        line-height: 28px;
         color: $info-color;
+        margin-right: 13px;
 
         &:focus-visible {
           outline: 2px solid $primary-color;
-        }
-
-        @media screen and (min-width: 426px) {
-          font-size: $font-size-extra-large;
         }
 
         > a {
@@ -38,10 +39,10 @@
       .like {
         display: flex;
         height: 100%;
-        background: url('../../../assets/images/like.svg') transparent no-repeat left;
         padding: 0;
-        border: none;
         cursor: pointer;
+        border: none;
+        background: url('../../../assets/images/like.svg') transparent no-repeat left;
 
         .count {
           font-size: $font-size-sm;
@@ -57,11 +58,12 @@
     display: flex;
     padding: 0;
     list-style: none;
+
     .tag {
-      margin: 5px 8px 0 0;
       font-size: $font-size-sm;
-      color: $text-color-secondary;
       line-height: 15px;
+      color: $text-color-secondary;
+      margin: 5px 8px 0 0;
       padding: 2px 5px;
       border: 1px solid $text-color-secondary;
       border-radius: 2px;
@@ -80,33 +82,34 @@
 }
 
 .author {
+  text-align: right;
   display: flex;
   align-items: center;
-  text-align: right;
   height: 46px;
+
   &Info {
     margin: 0;
   }
 
   &Name {
-    font-size: $font-size-sm;
-    line-height: 28px;
 
-    @media screen and (min-width: 426px) {
+    @media screen and ( min-width: 426px ) {
       font-size: $font-size-large;
     }
+    font-size: $font-size-sm;
+    line-height: 28px;
   }
 
   &Avatar {
-    display: none;
-    border-radius: 50%;
-    margin-left: 12px;
 
-    @media screen and (min-width: 350px) {
+    @media screen and ( min-width: 350px ) {
       display: block;
       width: 46px;
       height: 46px;
     }
+    display: none;
+    margin-left: 12px;
+    border-radius: 50%;
   }
 
   .date {
