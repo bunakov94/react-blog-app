@@ -1,16 +1,18 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import blogAPI from '../../../helpers/BlogApi';
 import { setUserToken } from '../../../helpers/localStorage';
 import style from './Form.module.scss';
 import { Email, Password } from './Form.fields';
 import { IClientErrors, IFormInput, IServerErrors } from './interfaces';
+import { setUser } from '../../../store/action-creators/user';
 
 interface IProps {
   setHasError: Function;
   setServerErrors: Function;
-  setUser: Function;
+
   register: ReturnType<typeof useForm>['register'];
   errors: IClientErrors;
   serverErrors: IServerErrors;
@@ -21,7 +23,7 @@ interface IProps {
 const LogIn = ({
   setHasError,
   setServerErrors,
-  setUser,
+
   register,
   errors,
   serverErrors,
@@ -29,6 +31,7 @@ const LogIn = ({
   handleSubmit,
 }: IProps) => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const onLogin = async (data: IFormInput) => {
     try {
@@ -39,7 +42,7 @@ const LogIn = ({
       }
       const { user } = res;
       setUserToken(user.token);
-      setUser({ ...user });
+      dispatch(setUser(res.user));
       history.push('/');
     } catch (error) {
       // eslint-disable-next-line no-console

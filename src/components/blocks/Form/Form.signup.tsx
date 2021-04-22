@@ -1,11 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import style from './Form.module.scss';
 import { AcceptTerm, ConfirmPassword, Email, Password, Username } from './Form.fields';
 import blogAPI from '../../../helpers/BlogApi';
 import { setUserToken } from '../../../helpers/localStorage';
 import { IServerErrors, IClientErrors, IFormInput } from './interfaces';
+import { setUser } from '../../../store/action-creators/user';
 
 interface IProps {
   register: ReturnType<typeof useForm>['register'];
@@ -16,7 +18,6 @@ interface IProps {
   handleSubmit: Function;
   setHasError: Function;
   setServerErrors: Function;
-  setUser: Function;
 }
 
 const SignUp: React.FC<IProps> = ({
@@ -28,8 +29,9 @@ const SignUp: React.FC<IProps> = ({
   handleSubmit,
   setHasError,
   setServerErrors,
-  setUser,
 }: IProps) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const onRegistration = async (data: IFormInput) => {
     try {
       const res = await blogAPI.registration(data.username, data.email, data.password);
@@ -39,7 +41,8 @@ const SignUp: React.FC<IProps> = ({
       }
       const { user } = res;
       setUserToken(user.token);
-      setUser({ ...user });
+      dispatch(setUser(res.user));
+      history.push('/');
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);

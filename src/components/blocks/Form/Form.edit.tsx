@@ -1,10 +1,11 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import blogAPI from '../../../helpers/BlogApi';
-import { setUserToken } from '../../../helpers/localStorage';
 import style from './Form.module.scss';
 import { Avatar, Email, Password, Username } from './Form.fields';
 import { IClientErrors, IFormInput, IServerErrors } from './interfaces';
+import { setUser } from '../../../store/action-creators/user';
 
 interface IProps {
   register: ReturnType<typeof useForm>['register'];
@@ -14,7 +15,6 @@ interface IProps {
   handleSubmit: Function;
   setHasError: Function;
   setServerErrors: Function;
-  setUser: Function;
   token: string;
   username: string;
   email: string;
@@ -28,11 +28,11 @@ const Edit = ({
   handleSubmit,
   setHasError,
   setServerErrors,
-  setUser,
   token,
   username,
   email,
 }: IProps) => {
+  const dispatch = useDispatch();
   const onEdit = async (data: IFormInput) => {
     try {
       const res = await blogAPI.edit(data.email, data.password, data.username, data.avatar, token);
@@ -40,9 +40,7 @@ const Edit = ({
         setHasError(true);
         setServerErrors(res.errors);
       }
-      const { user } = res;
-      setUser({ ...user });
-      setUserToken(user.token);
+      dispatch(setUser(res.user));
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);

@@ -1,20 +1,19 @@
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { connect } from 'react-redux';
-import * as actions from '../../../redux/actions/user';
-import { IState, IUser } from '../../../types/interfaces';
 import SignUp from './Form.signup';
 import Edit from './Form.edit';
 import LogIn from './Form.login';
 import { IServerErrors } from './interfaces';
+import useTypeSelector from '../../../hooks/useTypeSelector';
 
 interface IProps {
   type?: string;
-  setUser: (payload: IUser) => void;
-  userData: IUser;
 }
 
-const Form = ({ type, setUser, userData }: IProps) => {
+const Form = ({ type }: IProps) => {
+  const {
+    user: { token, username, email },
+  } = useTypeSelector((state) => state.user);
   const [serverErrors, setServerErrors] = useState({} as IServerErrors);
   const [hasError, setHasError] = useState(false);
   const { register, errors, handleSubmit, watch } = useForm({});
@@ -26,7 +25,6 @@ const Form = ({ type, setUser, userData }: IProps) => {
       <LogIn
         setHasError={setHasError}
         setServerErrors={setServerErrors}
-        setUser={setUser}
         register={register}
         errors={errors}
         serverErrors={serverErrors}
@@ -46,10 +44,9 @@ const Form = ({ type, setUser, userData }: IProps) => {
         handleSubmit={handleSubmit}
         setHasError={setHasError}
         setServerErrors={setServerErrors}
-        setUser={setUser}
-        token={userData.token}
-        username={userData.username}
-        email={userData.email}
+        token={token}
+        username={username}
+        email={email}
       />
     );
   }
@@ -64,7 +61,6 @@ const Form = ({ type, setUser, userData }: IProps) => {
       register={register}
       handleSubmit={handleSubmit}
       password={password}
-      setUser={setUser}
     />
   );
 };
@@ -73,8 +69,4 @@ Form.defaultProps = {
   type: 'signup',
 };
 
-const mapStateToProps = (state: IState) => ({
-  userData: state.user,
-});
-
-export default connect(mapStateToProps, actions)(Form);
+export default Form;

@@ -1,42 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Pagination } from 'antd';
-import blogApi from '../../../helpers/BlogApi';
-import * as actions from '../../../redux/actions/articles';
-import { IArticle, IState } from '../../../types/interfaces';
 import ArticleListItem from '../../blocks/ArticleListItem';
 import style from './ArticleList.module.scss';
 import Error from '../../blocks/Error';
 import Spinner from '../../blocks/Spinner';
+import { fetchArticles, setArticlesPage } from '../../../store/action-creators/articles';
+import useTypeSelector from '../../../hooks/useTypeSelector';
 
-interface IProps {
-  articleList: IArticle[];
-  currentPage: number;
-  setArticles: (payload: IArticle[]) => void;
-  setCurrentPage: (payload: number) => void;
-}
-
-const ArticleList: React.FC<IProps> = ({ setArticles, setCurrentPage, articleList, currentPage }: IProps) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-
+const ArticleList: React.FC = () => {
+  const { articles, loading, error, page } = useTypeSelector((state) => state.articles);
+  const dispatch = useDispatch();
   useEffect(() => {
-    (async () => {
-      try {
-        setIsLoading(true);
-        setArticles(await blogApi.getPostsPage(currentPage));
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-        setIsError(true);
-      }
-    })();
-  }, [setArticles, currentPage]);
+    dispatch(fetchArticles(page));
+  }, [dispatch, page]);
 
-  const articles = (
+  const articlesList = (
     <>
       <ul className={style.ArticleList}>
-        {articleList.map((article: IArticle) => (
+        {articles.map((article) => (
           <li key={`${article.slug} ${article.createdAt}`} className={style.article}>
             <ArticleListItem article={article} />
           </li>
@@ -44,8 +26,8 @@ const ArticleList: React.FC<IProps> = ({ setArticles, setCurrentPage, articleLis
       </ul>
       <div className={style.pagination}>
         <Pagination
-          current={currentPage}
-          onChange={(page) => setCurrentPage(page)}
+          current={page}
+          onChange={(currentPage) => dispatch(setArticlesPage(currentPage))}
           showSizeChanger={false}
           total={500}
         />
@@ -53,14 +35,9 @@ const ArticleList: React.FC<IProps> = ({ setArticles, setCurrentPage, articleLis
     </>
   );
 
-  const content = isError ? <Error /> : articles;
+  const content = error ? <Error text={error} /> : articlesList;
 
-  return <>{isLoading ? <Spinner /> : content}</>;
+  return <>{loading ? <Spinner /> : content}</>;
 };
 
-const mapStateToProps = (state: IState) => ({
-  articleList: state.articles.articleList,
-  currentPage: state.articles.currentPage,
-});
-
-export default connect(mapStateToProps, actions)(ArticleList);
+export default ArticleList;
