@@ -51,7 +51,7 @@ const Article: React.FC<IProps> = ({
           <div className={style.author}>
             <div className={style.authorInfo}>
               <p className={style.authorName}>{author?.username}</p>
-              <p className={style.date}>{format(new Date(createdAt), 'MMMM d, y')}</p>
+              <p className={style.date}>{createdAt && format(new Date(createdAt), 'MMMM d, y')}</p>
             </div>
             <img
               className={style.authorAvatar}

@@ -62,7 +62,6 @@
   margin-top: 30px;
   cursor: pointer;
 
-
   &Input {
     position: absolute;
     overflow: hidden;
@@ -110,10 +109,9 @@
 }
 
 .error {
-  border-color: #ff0;
+  border-color: rgb(255, 0, 0);
 }
 
 .errorMessage {
-  color: #ff0;
-
+  color: rgb(255, 0, 0);
 }
