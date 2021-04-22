@@ -1,42 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import React, { FC, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import Spinner from '../../blocks/Spinner';
-import Error from '../../blocks/Error';
-import * as actions from '../../../redux/actions/articles';
-import blogApi from '../../../helpers/BlogApi';
-import { IArticle, IState } from '../../../types/interfaces';
+import ErrorComponent from '../../blocks/ErrorComponent/ErrorComponent';
 import Article from '../../layout/Article';
+import fetchArticle from '../../../store/action-creators/article';
+import useTypeSelector from '../../../hooks/useTypeSelector';
 
-interface IProps {
-  setCurrentArticle: (payload: IArticle) => void;
-  currentArticle: IArticle;
+interface SingleArticlePageProps {
   slug: string;
 }
 
-const SingleArticlePage: React.FC<IProps> = ({ setCurrentArticle, currentArticle, slug }: IProps) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+const SingleArticlePage: FC<SingleArticlePageProps> = ({ slug }: SingleArticlePageProps) => {
+  const { article, loading, error } = useTypeSelector((state) => state.article);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    (async () => {
-      try {
-        setIsLoading(true);
-        setCurrentArticle(await blogApi.getPost(slug));
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-        setIsError(true);
-      }
-    })();
-  }, [slug, setCurrentArticle]);
+    dispatch(fetchArticle(slug));
+  }, [slug, dispatch]);
 
-  const content = isError ? <Error /> : <Article {...currentArticle} isFullArticle />;
+  const content = error ? <ErrorComponent text={error} /> : <Article {...article} isFullArticle />;
 
-  return <>{isLoading ? <Spinner /> : content}</>;
+  return <>{loading ? <Spinner /> : content}</>;
 };
 
-const mapStateToProps = (state: IState) => ({
-  currentArticle: state.articles.currentArticle,
-});
-
-export default connect(mapStateToProps, actions)(SingleArticlePage);
+export default SingleArticlePage;

@@ -47,7 +47,9 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix --color",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "stylelint:fix": "stylelint --fix  \"./src/**/*.{css,scss,sass}\"\n",
+    "stylelint": "stylelint  \"src/**/*.scss\"\n"
   },
   "husky": {
     "hooks": {
@@ -82,6 +84,10 @@
   "devDependencies": {
     "@types/react-redux": "^7.1.16",
     "@types/react-router-dom": "^5.1.7",
-    "@typescript-eslint/eslint-plugin": "^4.11.1"
+    "@typescript-eslint/eslint-plugin": "^4.11.1",
+    "stylelint": "^13.12.0",
+    "stylelint-config-recommended-scss": "^4.2.0",
+    "stylelint-order": "^4.1.0",
+    "stylelint-scss": "^3.19.0"
   }
 }

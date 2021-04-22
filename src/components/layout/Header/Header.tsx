@@ -1,19 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import * as actions from '../../../redux/actions/user';
+import { useDispatch } from 'react-redux';
 import style from './Header.module.scss';
-import { IState, IUser } from '../../../types/interfaces';
 import { getUserToken, removeUserToken } from '../../../helpers/localStorage';
 
 import Avatar from '../../../assets/images/Avatar.png';
+import { removeUser } from '../../../store/action-creators/user';
+import useTypeSelector from '../../../hooks/useTypeSelector';
 
-interface IProps {
-  user: IUser;
-  setUser: (payload: IUser) => void;
-}
-
-const Header: React.FC<IProps> = ({ user, setUser }: IProps) => {
+const Header: React.FC = () => {
+  const {
+    user: { username, image },
+  } = useTypeSelector((state) => state.user);
+  const dispatch = useDispatch();
   const isAuth = !!getUserToken();
 
   return (
@@ -39,14 +38,14 @@ const Header: React.FC<IProps> = ({ user, setUser }: IProps) => {
               Create article
             </Link>
             <Link to="/profile" className={`${style.button} ${style.profile}`}>
-              {user.username}
-              <img src={user.image ? user.image : Avatar} alt="" />
+              {username}
+              <img src={image || Avatar} alt="" />
             </Link>
             <Link
               to="/"
               onClick={() => {
                 removeUserToken();
-                setUser({} as IUser);
+                dispatch(removeUser());
               }}
               className={`${style.button} ${style.logOut}`}
             >
@@ -59,8 +58,4 @@ const Header: React.FC<IProps> = ({ user, setUser }: IProps) => {
   );
 };
 
-const mapStateToProps = (state: IState) => ({
-  user: state.user,
-});
-
-export default connect(mapStateToProps, actions)(Header);
+export default Header;

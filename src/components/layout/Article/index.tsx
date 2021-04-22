@@ -2,13 +2,13 @@ import React from 'react';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import style from './Article.module.scss';
-import { IArticle } from '../../../types/interfaces';
+import { IArticle } from '../../../types/article';
 
-interface IProps extends IArticle {
+interface ArticleProps extends IArticle {
   isFullArticle?: boolean;
 }
 
-const Article: React.FC<IProps> = ({
+const Article: React.FC<ArticleProps> = ({
   title,
   favoritesCount,
   tagList,
@@ -18,7 +18,7 @@ const Article: React.FC<IProps> = ({
   body,
   slug,
   isFullArticle,
-}: IProps) => {
+}: ArticleProps) => {
   const url = `articles/${slug}`;
 
   return (
@@ -51,7 +51,7 @@ const Article: React.FC<IProps> = ({
           <div className={style.author}>
             <div className={style.authorInfo}>
               <p className={style.authorName}>{author?.username}</p>
-              <p className={style.date}>{format(new Date(createdAt), 'MMMM d, y')}</p>
+              <p className={style.date}>{createdAt && format(new Date(createdAt), 'MMMM d, y')}</p>
             </div>
             <img
               className={style.authorAvatar}
