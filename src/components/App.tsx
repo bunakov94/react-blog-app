@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import 'focus-visible';
 import { useDispatch } from 'react-redux';
@@ -12,7 +12,7 @@ import ProfilePage from './pages/ProfilePage';
 
 import { fetchUser } from '../store/action-creators/user';
 
-const App: React.FC = () => {
+const App: FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUser());

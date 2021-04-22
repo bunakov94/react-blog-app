@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Alert } from 'antd';
 import style from './Error.module.scss';
 
-interface ErrorProps {
+interface ErrorComponentProps {
   text: string;
 }
 
-const Error: React.FC<ErrorProps> = ({ text }: ErrorProps) => (
+const ErrorComponent: FC<ErrorComponentProps> = ({ text }: ErrorComponentProps) => (
   <div className={style.error}>
     <Alert message="Error" description={text} type="error" showIcon />
   </div>
 );
 
-export default Error;
+export default ErrorComponent;

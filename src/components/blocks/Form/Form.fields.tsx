@@ -1,52 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import cn from 'classnames';
-import { useForm } from 'react-hook-form';
 import style from './Form.module.scss';
+import {
+  IAcceptTermsProps,
+  IAvatarProps,
+  IConfirmPasswordProps,
+  IEmailProps,
+  IPasswordProps,
+  IUserNameProps,
+} from './interfaces';
 
-interface IClientErrors {
-  username?: { message: string };
-  password?: { message: string };
-  password_repeat?: { message: string };
-  email?: { message: string };
-  acceptTerms?: { message: string };
-  avatar?: { message: string };
-}
-
-interface IServerErrors {
-  username?: string[];
-  password?: string[];
-  email?: string[];
-}
-
-interface IServerErrorsBundle {
-  serverErrors: IServerErrors;
-  hasError: boolean;
-}
-
-interface IFormElementsProps {
-  register: ReturnType<typeof useForm>['register'];
-  errors: IClientErrors;
-}
-
-interface IUserNameProps extends IFormElementsProps, IServerErrorsBundle {
-  value?: string;
-}
-
-interface IEmailProps extends IFormElementsProps, IServerErrorsBundle {
-  value?: string;
-}
-
-interface IPasswordProps extends IFormElementsProps, IServerErrorsBundle {}
-
-interface IConfirmPasswordProps extends IFormElementsProps {
-  password: { current: string };
-}
-
-interface IAcceptTermsProps extends IFormElementsProps {}
-
-interface IAvatarProps extends IFormElementsProps {}
-
-const Username: React.FC<IUserNameProps> = ({ register, errors, serverErrors, hasError, value }: IUserNameProps) => {
+const Username: FC<IUserNameProps> = ({ register, errors, serverErrors, value }: IUserNameProps) => {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
@@ -81,8 +45,8 @@ const Username: React.FC<IUserNameProps> = ({ register, errors, serverErrors, ha
           value={inputValue}
         />
       </label>
-      <p className={style.errorMessage}>{errors?.username?.message}</p>
-      {hasError && serverErrors.username && <p className={style.errorMessage}>{serverErrors.username[0]}</p>}
+      {errors.username?.message && <p className={style.errorMessage}>{errors.username?.message}</p>}
+      {serverErrors.username && <p className={style.errorMessage}>{serverErrors.username}</p>}
     </>
   );
 };
@@ -91,7 +55,7 @@ Username.defaultProps = {
   value: '',
 };
 
-const Email: React.FC<IEmailProps> = ({ register, errors, serverErrors, hasError, value }: IEmailProps) => {
+const Email: FC<IEmailProps> = ({ register, errors, serverErrors, value }: IEmailProps) => {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
@@ -118,8 +82,8 @@ const Email: React.FC<IEmailProps> = ({ register, errors, serverErrors, hasError
           value={inputValue}
         />
       </label>
-      <p className={style.errorMessage}>{errors?.email?.message}</p>
-      {hasError && serverErrors.email && <p className={style.errorMessage}>{serverErrors.email[0]}</p>}
+      {errors.email?.message && <p className={style.errorMessage}>{errors?.email?.message}</p>}
+      {serverErrors.email && <p className={style.errorMessage}>{serverErrors.email}</p>}
     </>
   );
 };
@@ -128,7 +92,7 @@ Email.defaultProps = {
   value: '',
 };
 
-const Password: React.FC<IPasswordProps> = ({ register, errors, serverErrors, hasError }: IPasswordProps) => (
+const Password: FC<IPasswordProps> = ({ register, errors, serverErrors }: IPasswordProps) => (
   <>
     <label className={style.formItem}>
       Password
@@ -154,12 +118,12 @@ const Password: React.FC<IPasswordProps> = ({ register, errors, serverErrors, ha
         })}
       />
     </label>
-    <p className={style.errorMessage}>{errors?.password?.message}</p>
-    {hasError && <p className={style.errorMessage}>{serverErrors?.password?.[0]}</p>}
+    {errors.password?.message && <p className={style.errorMessage}>{errors.password?.message}</p>}
+    {serverErrors.password && <p className={style.errorMessage}>{serverErrors.password}</p>}
   </>
 );
 
-const ConfirmPassword: React.FC<IConfirmPasswordProps> = ({ register, errors, password }: IConfirmPasswordProps) => (
+const ConfirmPassword: FC<IConfirmPasswordProps> = ({ register, errors, password }: IConfirmPasswordProps) => (
   <>
     <label className={style.formItem}>
       Repeat Password
@@ -173,11 +137,11 @@ const ConfirmPassword: React.FC<IConfirmPasswordProps> = ({ register, errors, pa
         })}
       />
     </label>
-    <p className={style.errorMessage}>{errors?.password_repeat?.message}</p>
+    {errors.password_repeat?.message && <p className={style.errorMessage}>{errors.password_repeat?.message}</p>}
   </>
 );
 
-const AcceptTerm: React.FC<IAcceptTermsProps> = ({ register, errors }: IAcceptTermsProps) => (
+const AcceptTerm: FC<IAcceptTermsProps> = ({ register, errors }: IAcceptTermsProps) => (
   <>
     <label className={style.input}>
       <input
@@ -189,11 +153,11 @@ const AcceptTerm: React.FC<IAcceptTermsProps> = ({ register, errors }: IAcceptTe
       <span className={cn(`${style.inputCheckmark}`, { [style.error]: errors.acceptTerms })} />
       <span className={style.inputLabel}>I agree to the processing of my personal information</span>
     </label>
-    <p className={style.errorMessage}>{errors?.acceptTerms?.message}</p>
+    {errors.acceptTerms?.message && <p className={style.errorMessage}>{errors.acceptTerms?.message}</p>}
   </>
 );
 
-const Avatar: React.FC<IAvatarProps> = ({ register, errors }: IAvatarProps) => (
+const Avatar: FC<IAvatarProps> = ({ register, errors }: IAvatarProps) => (
   <>
     <label className={style.formItem}>
       Avatar
@@ -210,7 +174,7 @@ const Avatar: React.FC<IAvatarProps> = ({ register, errors }: IAvatarProps) => (
         })}
       />
     </label>
-    <p className={style.errorMessage}>{errors?.avatar?.message}</p>
+    {errors.avatar?.message && <p className={style.errorMessage}>{errors.avatar?.message}</p>}
   </>
 );
 

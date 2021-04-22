@@ -2,13 +2,13 @@ import React from 'react';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import style from './Article.module.scss';
-import { IArticle } from '../../../types/interfaces';
+import { IArticle } from '../../../types/article';
 
-interface IProps extends IArticle {
+interface ArticleProps extends IArticle {
   isFullArticle?: boolean;
 }
 
-const Article: React.FC<IProps> = ({
+const Article: React.FC<ArticleProps> = ({
   title,
   favoritesCount,
   tagList,
@@ -18,7 +18,7 @@ const Article: React.FC<IProps> = ({
   body,
   slug,
   isFullArticle,
-}: IProps) => {
+}: ArticleProps) => {
   const url = `articles/${slug}`;
 
   return (

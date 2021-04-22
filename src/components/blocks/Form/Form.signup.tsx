@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, MouseEventHandler, SetStateAction } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -9,52 +9,44 @@ import { setUserToken } from '../../../helpers/localStorage';
 import { IServerErrors, IClientErrors, IFormInput } from './interfaces';
 import { setUser } from '../../../store/action-creators/user';
 
-interface IProps {
+interface SignUpProps {
   register: ReturnType<typeof useForm>['register'];
   errors: IClientErrors;
   serverErrors: IServerErrors;
-  hasError: boolean;
   password: { current: string };
-  handleSubmit: Function;
-  setHasError: Function;
-  setServerErrors: Function;
+  handleSubmit: (cb: (data: IFormInput) => Promise<void>) => MouseEventHandler<HTMLButtonElement> | undefined;
+  setServerErrors: Dispatch<SetStateAction<IServerErrors>>;
 }
 
-const SignUp: React.FC<IProps> = ({
+const SignUp: React.FC<SignUpProps> = ({
   register,
   errors,
   serverErrors,
-  hasError,
   password,
   handleSubmit,
-  setHasError,
   setServerErrors,
-}: IProps) => {
+}: SignUpProps) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const onRegistration = async (data: IFormInput) => {
     try {
       const res = await blogAPI.registration(data.username, data.email, data.password);
-      if (res.errors) {
-        setHasError(true);
-        setServerErrors(res.errors);
-      }
+      if (res.errors) throw new Error(JSON.stringify(res.errors));
       const { user } = res;
       setUserToken(user.token);
       dispatch(setUser(res.user));
       history.push('/');
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
+      setServerErrors(JSON.parse(error.message));
     }
   };
 
   return (
     <form className={style.form} onSubmit={(event) => event.preventDefault()}>
       <h1 className={style.formTitle}>Create new account</h1>
-      <Username register={register} errors={errors} serverErrors={serverErrors} hasError={hasError} />
-      <Email register={register} errors={errors} serverErrors={serverErrors} hasError={hasError} />
-      <Password register={register} errors={errors} serverErrors={serverErrors} hasError={hasError} />
+      <Username register={register} errors={errors} serverErrors={serverErrors} />
+      <Email register={register} errors={errors} serverErrors={serverErrors} />
+      <Password register={register} errors={errors} serverErrors={serverErrors} />
       <ConfirmPassword register={register} errors={errors} password={password} />
       <AcceptTerm register={register} errors={errors} />
 

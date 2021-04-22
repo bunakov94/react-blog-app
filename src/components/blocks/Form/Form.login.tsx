@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, FC, MouseEventHandler, SetStateAction } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -9,52 +9,36 @@ import { Email, Password } from './Form.fields';
 import { IClientErrors, IFormInput, IServerErrors } from './interfaces';
 import { setUser } from '../../../store/action-creators/user';
 
-interface IProps {
-  setHasError: Function;
-  setServerErrors: Function;
-
+interface LogInProps {
   register: ReturnType<typeof useForm>['register'];
   errors: IClientErrors;
   serverErrors: IServerErrors;
-  hasError: boolean;
-  handleSubmit: Function;
+  handleSubmit: (cb: (data: IFormInput) => Promise<void>) => MouseEventHandler<HTMLButtonElement> | undefined;
+  setServerErrors: Dispatch<SetStateAction<IServerErrors>>;
 }
 
-const LogIn = ({
-  setHasError,
-  setServerErrors,
-
-  register,
-  errors,
-  serverErrors,
-  hasError,
-  handleSubmit,
-}: IProps) => {
+const LogIn: FC<LogInProps> = ({ setServerErrors, register, errors, serverErrors, handleSubmit }: LogInProps) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
   const onLogin = async (data: IFormInput) => {
     try {
       const res = await blogAPI.login(data.email, data.password);
-      if (res.errors) {
-        setHasError(true);
-        setServerErrors({ password: ['Email or password invalid'], email: ['Email or password invalid'] });
-      }
+      if (res.errors) throw new Error('Email or password invalid!');
       const { user } = res;
       setUserToken(user.token);
       dispatch(setUser(res.user));
       history.push('/');
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
+      setServerErrors({ password: error.message, email: error.message });
     }
   };
 
   return (
     <form className={style.form} onSubmit={(event) => event.preventDefault()}>
       <h1 className={style.formTitle}>Sign In</h1>
-      <Email register={register} errors={errors} serverErrors={serverErrors} hasError={hasError} />
-      <Password register={register} errors={errors} serverErrors={serverErrors} hasError={hasError} />
+      <Email register={register} errors={errors} serverErrors={serverErrors} />
+      <Password register={register} errors={errors} serverErrors={serverErrors} />
 
       <button className={style.submit} type="submit" onClick={handleSubmit(onLogin)}>
         Login

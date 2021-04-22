@@ -1,4 +1,4 @@
-import { IArticle } from './interfaces';
+import { IArticle } from './article';
 
 export enum ArticlesActionTypes {
   FETCH_ARTICLES = 'FETCH_ARTICLES',

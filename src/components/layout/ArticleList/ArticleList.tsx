@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Pagination } from 'antd';
 import ArticleListItem from '../../blocks/ArticleListItem';
 import style from './ArticleList.module.scss';
-import Error from '../../blocks/Error';
+import ErrorComponent from '../../blocks/ErrorComponent/ErrorComponent';
 import Spinner from '../../blocks/Spinner';
 import { fetchArticles, setArticlesPage } from '../../../store/action-creators/articles';
 import useTypeSelector from '../../../hooks/useTypeSelector';
@@ -35,7 +35,7 @@ const ArticleList: React.FC = () => {
     </>
   );
 
-  const content = error ? <Error text={error} /> : articlesList;
+  const content = error ? <ErrorComponent text={error} /> : articlesList;
 
   return <>{loading ? <Spinner /> : content}</>;
 };

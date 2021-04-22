@@ -1,5 +1,4 @@
-import { ArticleActions, ArticleActionTypes, ArticleState } from '../../types/article';
-import { IArticle } from '../../types/interfaces';
+import { ArticleActions, ArticleActionTypes, ArticleState, IArticle } from '../../types/article';
 
 const initialState: ArticleState = {
   article: {} as IArticle,
