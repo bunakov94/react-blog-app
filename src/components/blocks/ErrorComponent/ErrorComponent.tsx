@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Alert } from 'antd';
-import style from './Error.module.scss';
+import style from './ErrorComponent.module.scss';
 
 interface ErrorComponentProps {
   text: string;
