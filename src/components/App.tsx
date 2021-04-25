@@ -11,6 +11,8 @@ import SignUpPage from './pages/SignUpPage';
 import ProfilePage from './pages/ProfilePage';
 
 import { fetchUser } from '../store/action-creators/user';
+import CreateArticle from './blocks/CreateArticle/CreateArticle';
+import EditArticle from './blocks/CreateArticle/EditArticle';
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -29,12 +31,20 @@ const App: FC = () => {
 
           <Route path="/profile" component={ProfilePage} exact />
           <Route
+            path="/articles/:slug/edit"
+            render={({ match }) => {
+              const { slug } = match.params;
+              return <EditArticle slug={slug} />;
+            }}
+          />
+          <Route
             path="/articles/:slug"
             render={({ match }) => {
               const { slug } = match.params;
               return <SingleArticlePage slug={slug} />;
             }}
           />
+          <Route path="/new-article" component={CreateArticle} exact />
         </Switch>
       </main>
     </BrowserRouter>

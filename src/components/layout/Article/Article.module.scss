@@ -17,8 +17,7 @@
       margin: 0;
 
       &Description {
-
-        @media screen and ( min-width: 426px ) {
+        @media screen and (min-width: 426px) {
           font-size: $font-size-extra-large;
         }
         font-size: $font-size-sm;
@@ -92,8 +91,7 @@
   }
 
   &Name {
-
-    @media screen and ( min-width: 426px ) {
+    @media screen and (min-width: 426px) {
       font-size: $font-size-large;
     }
     font-size: $font-size-sm;
@@ -101,8 +99,7 @@
   }
 
   &Avatar {
-
-    @media screen and ( min-width: 350px ) {
+    @media screen and (min-width: 350px) {
       display: block;
       width: 46px;
       height: 46px;
@@ -122,4 +119,31 @@
 .container {
   margin-top: 24px;
   padding: 0 15px;
+}
+
+.descriptionBlock {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit {
+  color: $success-color;
+  margin-left: 10px;
+  border: 1px solid $success-color;
+
+  &:hover {
+    background: $success-color;
+  }
+}
+
+.delete {
+  color: #f5222d;
+  margin-left: 10px;
+  padding: 3px 10px;
+  border: 1px solid #f5222d;
+
+  &:hover {
+    background: #f5222d;
+  }
 }

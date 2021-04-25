@@ -17,6 +17,13 @@ export interface IArticle {
   updatedAt: string;
 }
 
+export interface ICreateArticle {
+  title: string;
+  body: string;
+  description: string;
+  tagList?: string[];
+}
+
 export interface ArticleState {
   article: IArticle;
   loading: boolean;

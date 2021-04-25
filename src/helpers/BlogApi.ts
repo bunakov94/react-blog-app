@@ -1,3 +1,5 @@
+import { ICreateArticle } from '../types/article';
+
 const limit = (count: number, pageNumber: number) => `limit=${count}&offset=${pageNumber ? pageNumber * count : 0}`;
 
 class BlogApi {
@@ -84,6 +86,22 @@ class BlogApi {
     if (!res.ok) {
       throw new Error(`Could not fetch, received ${res.status}`);
     }
+    return res.json();
+  }
+
+  async createArticle(token: string, article: ICreateArticle) {
+    const res = await fetch(`${this.API_BASE_URL}articles`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+      body: JSON.stringify({
+        article: {
+          ...article,
+        },
+      }),
+    });
     return res.json();
   }
 }
