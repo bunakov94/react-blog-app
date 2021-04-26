@@ -2,7 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import 'focus-visible';
 import { useDispatch } from 'react-redux';
-import SingleArticlePage from './pages/SingleArticlePage/index';
+import ArticlePage from './pages/ArticlePage/index';
 
 import Header from './layout/Header';
 import ArticlesPage from './pages/ArticlesPage';
@@ -41,7 +41,7 @@ const App: FC = () => {
             path="/articles/:slug"
             render={({ match }) => {
               const { slug } = match.params;
-              return <SingleArticlePage slug={slug} />;
+              return <ArticlePage slug={slug} />;
             }}
           />
           <Route path="/new-article" component={CreateArticle} exact />

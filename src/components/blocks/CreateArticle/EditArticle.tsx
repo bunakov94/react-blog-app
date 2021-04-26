@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { Spin } from 'antd';
 import { useDispatch } from 'react-redux';
@@ -17,14 +16,11 @@ interface EditArticleProps {
 
 const EditArticle: FC<EditArticleProps> = ({ slug }: EditArticleProps) => {
   const dispatch = useDispatch();
-  const {
-    article: { title, description, body, tagList },
-  } = useTypeSelector((state) => state.article);
+  const { article } = useTypeSelector((state) => state.article);
   const history = useHistory();
   const token = getUserToken();
   const [error, setError] = useState<null | string>(null);
   const [isLoading, setLoading] = useState<boolean>(false);
-  const { register, errors, handleSubmit } = useForm({});
 
   useEffect(() => {
     (async () => {
@@ -58,19 +54,7 @@ const EditArticle: FC<EditArticleProps> = ({ slug }: EditArticleProps) => {
 
   if (error) return <ErrorComponent text={error} />;
 
-  return (
-    <ArticleForm
-      onSubmit={handleSubmit(onSubmit)}
-      errors={errors}
-      error={error}
-      register={register}
-      isLoading={isLoading}
-      title={title}
-      description={description}
-      body={body}
-      tagList={tagList}
-    />
-  );
+  return <ArticleForm onSubmit={onSubmit} error={error} isLoading={isLoading} article={article} />;
 };
 
 export default EditArticle;

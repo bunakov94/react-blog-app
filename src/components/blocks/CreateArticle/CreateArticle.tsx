@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import blogApi from '../../../helpers/BlogApi';
 import { getUserToken } from '../../../helpers/localStorage';
@@ -11,7 +10,6 @@ const CreateArticle: FC = () => {
   const token = getUserToken();
   const [error, setError] = useState<null | string>(null);
   const [isLoading, setLoading] = useState<boolean>(false);
-  const { register, errors, handleSubmit } = useForm({});
 
   const onSubmit = async (data: ICreateArticle) => {
     try {
@@ -30,18 +28,7 @@ const CreateArticle: FC = () => {
     }
   };
 
-  return (
-    <ArticleForm
-      register={register}
-      errors={errors}
-      error={error}
-      isLoading={isLoading}
-      onSubmit={handleSubmit(onSubmit)}
-      title=""
-      description=""
-      body=""
-    />
-  );
+  return <ArticleForm error={error} isLoading={isLoading} onSubmit={onSubmit} />;
 };
 
 export default CreateArticle;
