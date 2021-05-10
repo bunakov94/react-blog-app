@@ -104,6 +104,17 @@ class BlogApi {
     });
     return res.json();
   }
+
+  async deleteArticle(token: string, slug: string) {
+    const res = await fetch(`${this.API_BASE_URL}articles/${slug}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+    });
+    return res.json();
+  }
 }
 
 const blogApi = new BlogApi();

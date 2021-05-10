@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import button from '../Header/Header.module.scss';
 import style from './Article.module.scss';
 import { IArticle } from '../../../types/article';
+import PopUp from '../../blocks/PopUp/PopUp';
 
 interface ArticleProps extends IArticle {
   isFullArticle?: boolean;
@@ -70,9 +71,7 @@ const Article: React.FC<ArticleProps> = ({
           <div className={style.articleDescription}>{description}</div>
           {isFullArticle && (
             <div>
-              <button type="button" className={`${button.button} ${style.delete}`}>
-                Delete
-              </button>
+              <PopUp slug={slug} />
               <Link to={editUrl} className={`${button.button} ${style.edit}`}>
                 Edit
               </Link>

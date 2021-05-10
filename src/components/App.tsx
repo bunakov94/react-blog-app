@@ -13,8 +13,12 @@ import ProfilePage from './pages/ProfilePage';
 import { fetchUser } from '../store/action-creators/user';
 import CreateArticle from './blocks/CreateArticle/CreateArticle';
 import EditArticle from './blocks/CreateArticle/EditArticle';
+import PrivateRoute from '../helpers/PrivateRoute';
+import { getUserToken } from '../helpers/localStorage';
 
 const App: FC = () => {
+  const isAuth = !!getUserToken();
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUser());
@@ -28,8 +32,6 @@ const App: FC = () => {
           <Route path="/" component={ArticlesPage} exact />
           <Route path="/sign-in" component={SignInPage} exact />
           <Route path="/sign-up" component={SignUpPage} exact />
-
-          <Route path="/profile" component={ProfilePage} exact />
           <Route
             path="/articles/:slug/edit"
             render={({ match }) => {
@@ -44,7 +46,8 @@ const App: FC = () => {
               return <ArticlePage slug={slug} />;
             }}
           />
-          <Route path="/new-article" component={CreateArticle} exact />
+          <PrivateRoute path="/new-article" auth={isAuth} component={() => <CreateArticle />} exact />
+          <PrivateRoute path="/profile" auth={isAuth} component={() => <ProfilePage />} exact />
         </Switch>
       </main>
     </BrowserRouter>

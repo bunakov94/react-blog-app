@@ -7,7 +7,7 @@ import styles from './CreateArticle.module.scss';
 interface TitleProps extends IFormElementsProps {
   value?: string;
 }
-// TODO: Errors names!!!
+
 const Title: FC<TitleProps> = ({ register, errors, value }: TitleProps) => {
   const [inputValue, setInputValue] = useState('');
 
@@ -93,7 +93,7 @@ const TextArea: FC<TextAreaProps> = ({ register, errors, value }: TextAreaProps)
         Text
         <textarea
           onChange={(event) => setInputValue(event.target.value)}
-          className={cn(`${style.formInput}`, { [style.error]: errors.body })}
+          className={cn(style.formInput, style.textArea, { [style.error]: errors.body })}
           placeholder="Text"
           ref={register({
             required: 'Required',
@@ -130,6 +130,7 @@ const FormTags = ({ tags, add, remove, edit }: FormTagsProps) => {
         placeholder="Tag"
       />
       <button
+        className={cn(styles.button, styles.delete)}
         type="button"
         onClick={() => {
           remove(key);
@@ -141,18 +142,18 @@ const FormTags = ({ tags, add, remove, edit }: FormTagsProps) => {
   ));
 
   return (
-    <div className={styles.root}>
-      <p className={styles.labels}>Tags</p>
+    <div className={styles.tagsWrapper}>
+      <p className={styles.title}>Tags</p>
       <div className={styles.inputs}>
         <div className={styles.tags}>{tagsNodes}</div>
         <button
-          className={styles.button}
+          className={cn(styles.button, styles.submit)}
           type="button"
           onClick={() => {
             add();
           }}
         >
-          add
+          Add tag
         </button>
       </div>
     </div>

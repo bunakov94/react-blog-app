@@ -1,0 +1,59 @@
+@import '../../../assets/scss/vars';
+
+.popup {
+  width: 240px;
+  background-color: $background-color-base;
+}
+
+.message {
+  display: flex;
+}
+
+.image {
+  margin-top: 5px;
+  margin-right: 9px;
+  margin-bottom: auto;
+}
+
+.text {
+  font-size: 14px;
+  line-height: 22px;
+  color: #595959;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button {
+  font-size: 14px;
+  line-height: 22px;
+  padding: 0 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.dismiss {
+  color: #595959;
+  margin-right: 8px;
+  border: 1px solid #d9d9d9;
+  background: $background-color-base;
+
+  &:hover {
+    color: $background-color-base;
+    background: #595959;
+  }
+}
+
+.submit {
+  color: $background-color-base;
+  border: 1px solid #d9d9d9;
+  background: #1890ff;
+
+  &:hover {
+    color: #1890ff;
+    background: $background-color-base;
+  }
+}

@@ -9,6 +9,7 @@ import ErrorComponent from '../ErrorComponent/ErrorComponent';
 import useTypeSelector from '../../../hooks/useTypeSelector';
 import fetchArticle from '../../../store/action-creators/article';
 import ArticleForm from './ArticleForm';
+import { IArticle } from '../../../types/article';
 
 interface EditArticleProps {
   slug: string;
@@ -28,7 +29,7 @@ const EditArticle: FC<EditArticleProps> = ({ slug }: EditArticleProps) => {
     })();
   }, [dispatch, slug]);
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: IArticle) => {
     try {
       if (!token) return;
       setLoading(true);
