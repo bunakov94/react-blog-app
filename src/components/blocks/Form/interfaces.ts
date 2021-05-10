@@ -13,6 +13,10 @@ export interface IClientErrors {
   email?: { message: string };
   acceptTerms?: { message: string };
   avatar?: { message: string };
+  title?: { message: string };
+  description?: { message: string };
+  body?: { message: string };
+  tagList?: string[];
 }
 
 interface IServerErrorsBundle {
@@ -27,7 +31,7 @@ export interface IFormInput {
   token: string;
 }
 
-interface IFormElementsProps {
+export interface IFormElementsProps {
   register: ReturnType<typeof useForm>['register'];
   errors: IClientErrors;
 }

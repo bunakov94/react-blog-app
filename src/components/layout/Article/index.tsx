@@ -1,8 +1,10 @@
 import React from 'react';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
+import button from '../Header/Header.module.scss';
 import style from './Article.module.scss';
 import { IArticle } from '../../../types/article';
+import PopUp from '../../blocks/PopUp/PopUp';
 
 interface ArticleProps extends IArticle {
   isFullArticle?: boolean;
@@ -20,6 +22,7 @@ const Article: React.FC<ArticleProps> = ({
   isFullArticle,
 }: ArticleProps) => {
   const url = `articles/${slug}`;
+  const editUrl = `${slug}/edit`;
 
   return (
     <div className={style.container}>
@@ -64,7 +67,17 @@ const Article: React.FC<ArticleProps> = ({
             />
           </div>
         </header>
-        <div className={style.articleDescription}>{description}</div>
+        <div className={style.descriptionBlock}>
+          <div className={style.articleDescription}>{description}</div>
+          {isFullArticle && (
+            <div>
+              <PopUp slug={slug} />
+              <Link to={editUrl} className={`${button.button} ${style.edit}`}>
+                Edit
+              </Link>
+            </div>
+          )}
+        </div>
         {isFullArticle && <div className={style.articleBody}>{body}</div>}
       </article>
     </div>

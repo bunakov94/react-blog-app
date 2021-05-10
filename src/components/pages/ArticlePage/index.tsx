@@ -10,7 +10,7 @@ interface SingleArticlePageProps {
   slug: string;
 }
 
-const SingleArticlePage: FC<SingleArticlePageProps> = ({ slug }: SingleArticlePageProps) => {
+const ArticlePage: FC<SingleArticlePageProps> = ({ slug }: SingleArticlePageProps) => {
   const { article, loading, error } = useTypeSelector((state) => state.article);
   const dispatch = useDispatch();
 
@@ -23,4 +23,4 @@ const SingleArticlePage: FC<SingleArticlePageProps> = ({ slug }: SingleArticlePa
   return <>{loading ? <Spinner /> : content}</>;
 };
 
-export default SingleArticlePage;
+export default ArticlePage;
