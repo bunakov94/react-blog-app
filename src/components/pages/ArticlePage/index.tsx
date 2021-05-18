@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Spinner from '../../blocks/Spinner';
-import ErrorComponent from '../../blocks/ErrorComponent/ErrorComponent';
-import Article from '../../layout/Article';
+import Errors from '../../blocks/Errors/Errors';
+import Article from '../../blocks/Article';
 import fetchArticle from '../../../store/action-creators/article';
 import useTypeSelector from '../../../hooks/useTypeSelector';
 
@@ -18,7 +18,7 @@ const ArticlePage: FC<SingleArticlePageProps> = ({ slug }: SingleArticlePageProp
     dispatch(fetchArticle(slug));
   }, [slug, dispatch]);
 
-  const content = error ? <ErrorComponent text={error} /> : <Article {...article} isFullArticle />;
+  const content = error ? <Errors text={error} /> : <Article {...article} isFullArticle />;
 
   return <>{loading ? <Spinner /> : content}</>;
 };

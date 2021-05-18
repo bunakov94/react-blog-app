@@ -16,7 +16,6 @@ export const fetchArticles = (page: number) => async (dispatch: Dispatch<Article
   }
 };
 
-// eslint-disable-next-line consistent-return
 export const favoriteArticleInList = (slug: string, articles: IArticle[], favorited: boolean) => async (
   dispatch: Dispatch<ArticlesAction>,
   // eslint-disable-next-line consistent-return

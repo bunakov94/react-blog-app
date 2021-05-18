@@ -2,9 +2,9 @@ import React, { FC, useEffect, useState } from 'react';
 import { Spin } from 'antd';
 import { useForm } from 'react-hook-form';
 import { nanoid } from 'nanoid';
-import styles from './CreateArticle.module.scss';
-import ErrorComponent from '../ErrorComponent/ErrorComponent';
-import { FormTags, ShortDescription, TextArea, Title } from './CreateArticle.fields';
+import styles from './ArticleForm.module.scss';
+import Errors from '../Errors/Errors';
+import { FormTags, ShortDescription, TextArea, Title } from './ArticleForm.fields';
 import style from '../Form/Form.module.scss';
 import { IArticle } from '../../../types/article';
 
@@ -71,7 +71,7 @@ const ArticleForm: FC<ArticleFormProps> = ({ isLoading, error, onSubmit, article
     );
   }
 
-  if (error) return <ErrorComponent text={error} />;
+  if (error) return <Errors text={error} />;
 
   return (
     <>

@@ -1,33 +1,24 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Spin } from 'antd';
-import { useDispatch } from 'react-redux';
-import styles from './CreateArticle.module.scss';
+import styles from '../../blocks/ArticleForm/ArticleForm.module.scss';
 import blogApi from '../../../helpers/BlogApi';
 import { getUserToken } from '../../../helpers/localStorage';
-import ErrorComponent from '../ErrorComponent/ErrorComponent';
+import Errors from '../../blocks/Errors/Errors';
 import useTypeSelector from '../../../hooks/useTypeSelector';
-import fetchArticle from '../../../store/action-creators/article';
-import ArticleForm from './ArticleForm';
+import ArticleForm from '../../blocks/ArticleForm/ArticleForm';
 import { IArticle } from '../../../types/article';
 
 interface EditArticleProps {
   slug: string;
 }
 
-const EditArticle: FC<EditArticleProps> = ({ slug }: EditArticleProps) => {
-  const dispatch = useDispatch();
+const Index: FC<EditArticleProps> = ({ slug }: EditArticleProps) => {
   const { article } = useTypeSelector((state) => state.article);
   const history = useHistory();
   const token = getUserToken();
   const [error, setError] = useState<null | string>(null);
   const [isLoading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    (async () => {
-      dispatch(fetchArticle(slug));
-    })();
-  }, [dispatch, slug]);
 
   const onSubmit = async (data: IArticle) => {
     try {
@@ -35,7 +26,7 @@ const EditArticle: FC<EditArticleProps> = ({ slug }: EditArticleProps) => {
       setLoading(true);
       const {
         article: { slug: Slug },
-      } = await blogApi.createArticle(token, data);
+      } = await blogApi.editArticle(token, data, slug);
       const url = `articles/${Slug}`;
       setLoading(false);
       history.push(`/${url}`);
@@ -53,9 +44,9 @@ const EditArticle: FC<EditArticleProps> = ({ slug }: EditArticleProps) => {
     );
   }
 
-  if (error) return <ErrorComponent text={error} />;
+  if (error) return <Errors text={error} />;
 
   return <ArticleForm onSubmit={onSubmit} error={error} isLoading={isLoading} article={article} />;
 };
 
-export default EditArticle;
+export default Index;

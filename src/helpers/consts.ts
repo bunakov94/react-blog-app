@@ -4,4 +4,4 @@ export const SIGNUP_ROUTE = '/sign-up';
 export const PROFILE_ROUTE = '/profile';
 export const ARTICLE_ROUTE = '/articles/:slug';
 export const NEW_ARTICLE_ROUTE = '/new-article';
-export const EDIT_ARTICLE_ROUTE = '/articles/{slug}/edit';
+export const EDIT_ARTICLE_ROUTE = '/articles/:slug/edit';

@@ -11,7 +11,7 @@ interface EditProps {
   register: ReturnType<typeof useForm>['register'];
   errors: IClientErrors;
   serverErrors: IServerErrors;
-  handleSubmit: (cb: (data: IFormInput) => Promise<void>) => MouseEventHandler<HTMLButtonElement> | undefined;
+  handleSubmit: (cb: (data: IFormInput) => Promise<void>) => MouseEventHandler<HTMLButtonElement>;
   setServerErrors: Dispatch<SetStateAction<IServerErrors>>;
   token: string;
   username: string;

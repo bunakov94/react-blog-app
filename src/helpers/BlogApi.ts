@@ -88,6 +88,15 @@ class BlogApi {
     return this.getResources(this.API_ARTICLES_URL, token, 'POST', body);
   }
 
+  async editArticle(token: string, article: ICreateArticle, slug: string) {
+    const body = JSON.stringify({
+      article: {
+        ...article,
+      },
+    });
+    return this.getResources(`${this.API_ARTICLES_URL}/${slug}`, token, 'PUT', body);
+  }
+
   async deleteArticle(token: string, slug: string) {
     return this.getResources(`${this.API_ARTICLES_URL}/${slug}`, token, 'DELETE');
   }

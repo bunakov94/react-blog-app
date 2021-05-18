@@ -8,6 +8,7 @@ import style from './Form.module.scss';
 import { Email, Password } from './Form.fields';
 import { IClientErrors, IFormInput, IServerErrors } from './interfaces';
 import { setUser } from '../../../store/action-creators/user';
+import { ROOT_ROUTE } from '../../../helpers/consts';
 
 interface LogInProps {
   register: ReturnType<typeof useForm>['register'];
@@ -28,7 +29,7 @@ const LogIn: FC<LogInProps> = ({ setServerErrors, register, errors, serverErrors
       const { user } = res;
       setUserToken(user.token);
       dispatch(setUser(res.user));
-      history.push('/');
+      history.push(ROOT_ROUTE);
     } catch (error) {
       setServerErrors({ password: error.message, email: error.message });
     }

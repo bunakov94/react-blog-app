@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import cn from 'classnames';
 import { IFormElementsProps } from '../Form/interfaces';
 import style from '../Form/Form.module.scss';
-import styles from './CreateArticle.module.scss';
+import styles from './ArticleForm.module.scss';
 
 interface TitleProps extends IFormElementsProps {
   value?: string;

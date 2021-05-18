@@ -2,10 +2,10 @@ import React, { FC, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import blogApi from '../../../helpers/BlogApi';
 import { getUserToken } from '../../../helpers/localStorage';
-import ArticleForm from './ArticleForm';
+import ArticleForm from '../../blocks/ArticleForm/ArticleForm';
 import { ICreateArticle } from '../../../types/article';
 
-const CreateArticle: FC = () => {
+const Index: FC = () => {
   const history = useHistory();
   const token = getUserToken();
   const [error, setError] = useState<null | string>(null);
@@ -13,7 +13,6 @@ const CreateArticle: FC = () => {
 
   const onSubmit = async (data: ICreateArticle) => {
     try {
-      console.log(data);
       if (!token) return;
       setLoading(true);
       const {
@@ -31,4 +30,4 @@ const CreateArticle: FC = () => {
   return <ArticleForm error={error} isLoading={isLoading} onSubmit={onSubmit} />;
 };
 
-export default CreateArticle;
+export default Index;

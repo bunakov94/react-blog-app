@@ -8,6 +8,7 @@ import blogAPI from '../../../helpers/BlogApi';
 import { setUserToken } from '../../../helpers/localStorage';
 import { IServerErrors, IClientErrors, IFormInput } from './interfaces';
 import { setUser } from '../../../store/action-creators/user';
+import { ROOT_ROUTE } from '../../../helpers/consts';
 
 interface SignUpProps {
   register: ReturnType<typeof useForm>['register'];
@@ -35,7 +36,7 @@ const SignUp: React.FC<SignUpProps> = ({
       const { user } = res;
       setUserToken(user.token);
       dispatch(setUser(res.user));
-      history.push('/');
+      history.push(ROOT_ROUTE);
     } catch (error) {
       setServerErrors(JSON.parse(error.message));
     }
