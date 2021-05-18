@@ -13,14 +13,31 @@ class BlogApi {
     return res.json();
   }
 
-  async getPostsPage(pageNumber: number) {
-    const response = await this.getResources(`/articles?${limit(10, pageNumber)}`);
-    return response.articles;
+  async getArticlesPage(pageNumber: number, token?: string | null) {
+    const head = {
+      'Content-Type': 'application/json;charset=utf-8',
+      Authorization: `Token ${token}`,
+    };
+    const headers = token ? head : undefined;
+    const res = await fetch(`${this.API_BASE_URL}articles?${limit(10, pageNumber)}`, {
+      method: 'GET',
+      headers,
+    });
+    return res.json();
   }
 
-  async getPost(slug: string) {
-    const response = await this.getResources(`/articles/${slug}`);
-    return response.article;
+  async getArticle(slug: string, token?: string | null) {
+    const head = {
+      'Content-Type': 'application/json;charset=utf-8',
+      Authorization: `Token ${token}`,
+    };
+    const headers = token ? head : undefined;
+    const res = await fetch(`${this.API_BASE_URL}articles/${slug}`, {
+      method: 'GET',
+      headers,
+    });
+    const article = await res.json();
+    return article.article;
   }
 
   async registration(username: string, email: string, password: string) {
@@ -107,6 +124,28 @@ class BlogApi {
 
   async deleteArticle(token: string, slug: string) {
     const res = await fetch(`${this.API_BASE_URL}articles/${slug}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+    });
+    return res.json();
+  }
+
+  async favoriteArticle(token: string, slug: string) {
+    const res = await fetch(`${this.API_BASE_URL}articles/${slug}/favorite`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+    });
+    return res.json();
+  }
+
+  async unfavoriteArticle(token: string, slug: string) {
+    const res = await fetch(`${this.API_BASE_URL}articles/${slug}/favorite`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
