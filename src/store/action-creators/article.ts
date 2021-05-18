@@ -3,7 +3,7 @@ import { ArticleActions, ArticleActionTypes } from '../../types/article';
 import blogApi from '../../helpers/BlogApi';
 import { getUserToken } from '../../helpers/localStorage';
 
-const token = getUserToken();
+const token = getUserToken() || '';
 
 const fetchArticle = (slug: string) => async (dispatch: Dispatch<ArticleActions>) => {
   try {

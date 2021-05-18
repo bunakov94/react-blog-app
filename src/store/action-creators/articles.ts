@@ -4,13 +4,13 @@ import blogApi from '../../helpers/BlogApi';
 import { getUserToken } from '../../helpers/localStorage';
 import { IArticle } from '../../types/article';
 
-const token = getUserToken();
+const token = getUserToken() || '';
 
 export const fetchArticles = (page: number) => async (dispatch: Dispatch<ArticlesAction>) => {
   try {
     dispatch({ type: ArticlesActionTypes.FETCH_ARTICLES });
-    const response = await blogApi.getArticlesPage(page, token);
-    dispatch({ type: ArticlesActionTypes.FETCH_ARTICLES_SUCCESS, payload: response.articles });
+    const articles = await blogApi.getArticlesPage(page, token);
+    dispatch({ type: ArticlesActionTypes.FETCH_ARTICLES_SUCCESS, payload: articles });
   } catch (error) {
     dispatch({ type: ArticlesActionTypes.FETCH_ARTICLES_ERROR, payload: error.message });
   }
