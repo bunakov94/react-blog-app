@@ -3,10 +3,11 @@ import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import cn from 'classnames';
+import ReactMarkdown from 'react-markdown';
 import button from '../../layout/Header/Header.module.scss';
 import style from './Article.module.scss';
 import { ArticleActionTypes, IArticle } from '../../../types/article';
-import PopUp from '../PopUp/PopUp';
+import Delete from '../PopUp/PopUp';
 import blogApi from '../../../helpers/BlogApi';
 import { getUserToken } from '../../../helpers/localStorage';
 import useTypeSelector from '../../../hooks/useTypeSelector';
@@ -94,15 +95,15 @@ const Article: React.FC<ArticleProps> = ({
         <div className={style.descriptionBlock}>
           <div className={style.articleDescription}>{description}</div>
           {isFullArticle && (
-            <div>
-              <PopUp slug={slug} />
+            <div className={style.buttons}>
+              <Delete slug={slug} />
               <Link to={editUrl} className={`${button.button} ${style.edit}`}>
                 Edit
               </Link>
             </div>
           )}
         </div>
-        {isFullArticle && <div className={style.articleBody}>{body}</div>}
+        {isFullArticle && <ReactMarkdown className={style.articleBody}>{body}</ReactMarkdown>}
       </article>
     </div>
   );

@@ -1,12 +1,12 @@
 import React, { FC, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Spin } from 'antd';
-import styles from '../../blocks/ArticleForm/ArticleForm.module.scss';
+import styles from '../../blocks/CreateArticleForm/CreateArticleForm.module.scss';
 import blogApi from '../../../helpers/BlogApi';
 import { getUserToken } from '../../../helpers/localStorage';
 import Errors from '../../blocks/Errors/Errors';
 import useTypeSelector from '../../../hooks/useTypeSelector';
-import ArticleForm from '../../blocks/ArticleForm/ArticleForm';
+import CreateArticleForm from '../../blocks/CreateArticleForm/CreateArticleForm';
 import { IArticle } from '../../../types/article';
 
 interface EditArticleProps {
@@ -46,7 +46,7 @@ const Index: FC<EditArticleProps> = ({ slug }: EditArticleProps) => {
 
   if (error) return <Errors text={error} />;
 
-  return <ArticleForm onSubmit={onSubmit} error={error} isLoading={isLoading} article={article} />;
+  return <CreateArticleForm onSubmit={onSubmit} error={error} isLoading={isLoading} article={article} />;
 };
 
 export default Index;

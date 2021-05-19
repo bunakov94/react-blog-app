@@ -132,6 +132,10 @@
   margin-top: 15px;
 }
 
+.buttons {
+  display: flex;
+}
+
 .edit {
   color: $success-color;
   margin-left: 10px;
@@ -143,12 +147,12 @@
 }
 
 .delete {
-  color: #f5222d;
+  color: $error-color;
   margin-left: 10px;
   padding: 3px 10px;
-  border: 1px solid #f5222d;
+  border: 1px solid $error-color;
 
   &:hover {
-    background: #f5222d;
+    background: $error-color;
   }
 }

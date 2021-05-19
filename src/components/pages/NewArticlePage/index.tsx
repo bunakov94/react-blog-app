@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import blogApi from '../../../helpers/BlogApi';
 import { getUserToken } from '../../../helpers/localStorage';
-import ArticleForm from '../../blocks/ArticleForm/ArticleForm';
+import CreateArticleForm from '../../blocks/CreateArticleForm/CreateArticleForm';
 import { ICreateArticle } from '../../../types/article';
 
 const Index: FC = () => {
@@ -27,7 +27,7 @@ const Index: FC = () => {
     }
   };
 
-  return <ArticleForm error={error} isLoading={isLoading} onSubmit={onSubmit} />;
+  return <CreateArticleForm error={error} isLoading={isLoading} onSubmit={onSubmit} />;
 };
 
 export default Index;

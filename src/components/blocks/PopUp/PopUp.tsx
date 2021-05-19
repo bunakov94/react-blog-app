@@ -15,7 +15,7 @@ interface PopUpProps {
   slug: string;
 }
 
-const PopUp: FC<PopUpProps> = ({ slug }: PopUpProps): JSX.Element => {
+const Delete: FC<PopUpProps> = ({ slug }: PopUpProps): JSX.Element => {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const token = getUserToken() || '';
@@ -58,4 +58,4 @@ const PopUp: FC<PopUpProps> = ({ slug }: PopUpProps): JSX.Element => {
   );
 };
 
-export default PopUp;
+export default Delete;

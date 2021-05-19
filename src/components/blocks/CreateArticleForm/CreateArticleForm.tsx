@@ -2,11 +2,11 @@ import React, { FC, useEffect, useState } from 'react';
 import { Spin } from 'antd';
 import { useForm } from 'react-hook-form';
 import { nanoid } from 'nanoid';
-import styles from './ArticleForm.module.scss';
-import Errors from '../Errors/Errors';
-import { FormTags, ShortDescription, TextArea, Title } from './ArticleForm.fields';
-import style from '../Form/Form.module.scss';
+import { FormTags, ShortDescription, TextArea, Title } from './CreateArticleForm.fields';
 import { IArticle } from '../../../types/article';
+import Errors from '../Errors/Errors';
+import styles from './CreateArticleForm.module.scss';
+import style from '../Form/Form.module.scss';
 
 interface ArticleFormProps {
   isLoading: boolean;
@@ -15,7 +15,7 @@ interface ArticleFormProps {
   article?: IArticle;
 }
 
-const ArticleForm: FC<ArticleFormProps> = ({ isLoading, error, onSubmit, article }: ArticleFormProps) => {
+const CreateArticleForm: FC<ArticleFormProps> = ({ isLoading, error, onSubmit, article }: ArticleFormProps) => {
   const makeTagsMap = (tagsArr: string[]) => {
     const tagsMap = new Map<string, string>();
     tagsArr.forEach((tag) => {
@@ -91,8 +91,8 @@ const ArticleForm: FC<ArticleFormProps> = ({ isLoading, error, onSubmit, article
   );
 };
 
-ArticleForm.defaultProps = {
+CreateArticleForm.defaultProps = {
   article: undefined,
 };
 
-export default ArticleForm;
+export default CreateArticleForm;
