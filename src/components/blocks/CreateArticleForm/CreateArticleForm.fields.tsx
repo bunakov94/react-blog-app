@@ -112,14 +112,14 @@ TextArea.defaultProps = {
 };
 
 type FormTagsProps = {
-  tags: Map<string, string>;
+  tags: { [key: string]: string };
   add: () => void;
   remove: (key: string) => void;
   edit: (key: string, tag: string) => void;
 };
 
 const FormTags = ({ tags, add, remove, edit }: FormTagsProps) => {
-  const tagsNodes = [...tags.entries()].map(([key, tag]) => (
+  const tagsNodes = Object.entries(tags).map(([key, tag]) => (
     <div className={styles.tag} key={key}>
       <input
         className={styles.input}
