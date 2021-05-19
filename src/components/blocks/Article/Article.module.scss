@@ -50,6 +50,10 @@
           padding-left: 20px;
         }
       }
+
+      .favorited {
+        background: url('../../../assets/images/favorited.svg') transparent no-repeat left;
+      }
     }
   }
 
@@ -125,6 +129,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 15px;
+}
+
+.buttons {
+  display: flex;
 }
 
 .edit {
@@ -138,12 +147,12 @@
 }
 
 .delete {
-  color: #f5222d;
+  color: $error-color;
   margin-left: 10px;
   padding: 3px 10px;
-  border: 1px solid #f5222d;
+  border: 1px solid $error-color;
 
   &:hover {
-    background: #f5222d;
+    background: $error-color;
   }
 }

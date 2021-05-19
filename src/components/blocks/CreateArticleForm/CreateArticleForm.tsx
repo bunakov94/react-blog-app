@@ -2,29 +2,30 @@ import React, { FC, useEffect, useState } from 'react';
 import { Spin } from 'antd';
 import { useForm } from 'react-hook-form';
 import { nanoid } from 'nanoid';
-import styles from './CreateArticle.module.scss';
-import ErrorComponent from '../ErrorComponent/ErrorComponent';
-import { FormTags, ShortDescription, TextArea, Title } from './CreateArticle.fields';
-import style from '../Form/Form.module.scss';
+import { FormTags, ShortDescription, TextArea, Title } from './CreateArticleForm.fields';
 import { IArticle } from '../../../types/article';
+import Errors from '../Errors/Errors';
+import styles from './CreateArticleForm.module.scss';
+import style from '../Form/Form.module.scss';
 
 interface ArticleFormProps {
   isLoading: boolean;
   error: string | null;
-  onSubmit: Function;
+  onSubmit: (data: IArticle) => Promise<void>;
   article?: IArticle;
 }
 
-const ArticleForm: FC<ArticleFormProps> = ({ isLoading, error, onSubmit, article }: ArticleFormProps) => {
+const CreateArticleForm: FC<ArticleFormProps> = ({ isLoading, error, onSubmit, article }: ArticleFormProps) => {
   const makeTagsMap = (tagsArr: string[]) => {
-    const tagsMap = new Map<string, string>();
+    const tagsObj = {} as { [key: string]: string };
     tagsArr.forEach((tag) => {
-      tagsMap.set(nanoid(), tag);
+      const id: string = nanoid();
+      tagsObj[id] = tag;
     });
-    return tagsMap;
+    return tagsObj;
   };
 
-  const [tags, setTags] = useState<Map<string, string>>(makeTagsMap(article?.tagList || []));
+  const [tags, setTags] = useState(makeTagsMap(article?.tagList || []));
 
   useEffect(() => {
     setTags(makeTagsMap(article?.tagList || []));
@@ -33,34 +34,31 @@ const ArticleForm: FC<ArticleFormProps> = ({ isLoading, error, onSubmit, article
   const { register, handleSubmit, errors } = useForm({});
 
   const addTag = () => {
-    setTags((oldTags) => {
-      const newTags = new Map([...oldTags]);
-      newTags.set(nanoid(), '');
-      return newTags;
-    });
+    setTags((oldTags) => ({ ...oldTags, [nanoid()]: '' }));
   };
+
   const removeTag = (key: string) => {
     setTags((oldTags) => {
-      const newTags = new Map([...oldTags]);
-      newTags.delete(key);
+      const newTags = { ...oldTags };
+      delete newTags[key];
       return newTags;
     });
   };
+
   const editTag = (key: string, tag: string) => {
     setTags((oldTags) => {
-      const newTags = new Map([...oldTags]);
-      newTags.set(key, tag);
+      const newTags = { ...oldTags };
+      newTags[key] = tag;
       return newTags;
     });
   };
 
   const submit = (submitArticle: IArticle) => {
     const newArticle = { ...submitArticle };
-    const filteredTags = [...tags.values()].filter((tag) => !!tag);
-    const uniqTags = new Set([...filteredTags]);
+    const filteredTags = Object.values(tags).filter((tag) => !!tag);
+    const uniqTags = Object.values(filteredTags);
     newArticle.tagList = [...uniqTags];
-    onSubmit(newArticle);
-    setTags(makeTagsMap(newArticle.tagList));
+    onSubmit(newArticle).then(() => makeTagsMap(newArticle.tagList));
   };
 
   if (isLoading) {
@@ -71,7 +69,7 @@ const ArticleForm: FC<ArticleFormProps> = ({ isLoading, error, onSubmit, article
     );
   }
 
-  if (error) return <ErrorComponent text={error} />;
+  if (error) return <Errors text={error} />;
 
   return (
     <>
@@ -91,8 +89,8 @@ const ArticleForm: FC<ArticleFormProps> = ({ isLoading, error, onSubmit, article
   );
 };
 
-ArticleForm.defaultProps = {
+CreateArticleForm.defaultProps = {
   article: undefined,
 };
 
-export default ArticleForm;
+export default CreateArticleForm;

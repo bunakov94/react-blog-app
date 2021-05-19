@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import style from './Header.module.scss';
 import { getUserToken, removeUserToken } from '../../../helpers/localStorage';
 
-import Avatar from '../../../assets/images/Avatar.png';
+import Avatar from '../../../assets/images/avatar.png';
 import { removeUser } from '../../../store/action-creators/user';
 import useTypeSelector from '../../../hooks/useTypeSelector';
 

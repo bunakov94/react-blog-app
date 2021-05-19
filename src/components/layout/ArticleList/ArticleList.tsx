@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Pagination } from 'antd';
-import ArticleListItem from '../../blocks/ArticleListItem';
 import style from './ArticleList.module.scss';
-import ErrorComponent from '../../blocks/ErrorComponent/ErrorComponent';
+import Errors from '../../blocks/Errors/Errors';
 import Spinner from '../../blocks/Spinner';
 import { fetchArticles, setArticlesPage } from '../../../store/action-creators/articles';
 import useTypeSelector from '../../../hooks/useTypeSelector';
+import Article from '../../blocks/Article';
 
 const ArticleList: React.FC = () => {
   const { articles, loading, error, page } = useTypeSelector((state) => state.articles);
@@ -20,7 +20,7 @@ const ArticleList: React.FC = () => {
       <ul className={style.ArticleList}>
         {articles.map((article) => (
           <li key={`${article.slug} ${article.createdAt}`} className={style.article}>
-            <ArticleListItem article={article} />
+            <Article {...article} />
           </li>
         ))}
       </ul>
@@ -35,7 +35,7 @@ const ArticleList: React.FC = () => {
     </>
   );
 
-  const content = error ? <ErrorComponent text={error} /> : articlesList;
+  const content = error ? <Errors text={error} /> : articlesList;
 
   return <>{loading ? <Spinner /> : content}</>;
 };

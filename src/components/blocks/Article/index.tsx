@@ -1,10 +1,17 @@
 import React from 'react';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
-import button from '../Header/Header.module.scss';
+import { useDispatch } from 'react-redux';
+import cn from 'classnames';
+import ReactMarkdown from 'react-markdown';
+import button from '../../layout/Header/Header.module.scss';
 import style from './Article.module.scss';
-import { IArticle } from '../../../types/article';
-import PopUp from '../../blocks/PopUp/PopUp';
+import { ArticleActionTypes, IArticle } from '../../../types/article';
+import Delete from '../PopUp/PopUp';
+import blogApi from '../../../helpers/BlogApi';
+import { getUserToken } from '../../../helpers/localStorage';
+import useTypeSelector from '../../../hooks/useTypeSelector';
+import { favoriteArticleInList } from '../../../store/action-creators/articles';
 
 interface ArticleProps extends IArticle {
   isFullArticle?: boolean;
@@ -13,6 +20,7 @@ interface ArticleProps extends IArticle {
 const Article: React.FC<ArticleProps> = ({
   title,
   favoritesCount,
+  favorited,
   tagList,
   author,
   createdAt,
@@ -21,8 +29,21 @@ const Article: React.FC<ArticleProps> = ({
   slug,
   isFullArticle,
 }: ArticleProps) => {
+  const { articles } = useTypeSelector((state) => state.articles);
   const url = `articles/${slug}`;
   const editUrl = `${slug}/edit`;
+  const token = getUserToken();
+  const dispatch = useDispatch();
+  const handleFavorite = async () => {
+    if (!token) return;
+    const { article } = favorited
+      ? await blogApi.unfavoriteArticle(token, slug)
+      : await blogApi.favoriteArticle(token, slug);
+    dispatch({ type: ArticleActionTypes.FETCH_ARTICLE_SUCCESS, payload: article });
+    if (!isFullArticle) {
+      dispatch(favoriteArticleInList(slug, articles, favorited));
+    }
+  };
 
   return (
     <div className={style.container}>
@@ -37,7 +58,11 @@ const Article: React.FC<ArticleProps> = ({
                   {title}
                 </Link>
               )}
-              <button type="button" className={style.like}>
+              <button
+                type="button"
+                className={cn(style.like, { [style.favorited]: favorited })}
+                onClick={handleFavorite}
+              >
                 <span className={style.count}>{favoritesCount}</span>
               </button>
             </div>
@@ -70,15 +95,15 @@ const Article: React.FC<ArticleProps> = ({
         <div className={style.descriptionBlock}>
           <div className={style.articleDescription}>{description}</div>
           {isFullArticle && (
-            <div>
-              <PopUp slug={slug} />
+            <div className={style.buttons}>
+              <Delete slug={slug} />
               <Link to={editUrl} className={`${button.button} ${style.edit}`}>
                 Edit
               </Link>
             </div>
           )}
         </div>
-        {isFullArticle && <div className={style.articleBody}>{body}</div>}
+        {isFullArticle && <ReactMarkdown className={style.articleBody}>{body}</ReactMarkdown>}
       </article>
     </div>
   );

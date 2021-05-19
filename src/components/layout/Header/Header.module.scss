@@ -25,7 +25,6 @@
 }
 
 .button {
-
   @media screen and (min-width: 400px) {
     font-size: $font-size-large;
     padding: 6px 18px;
@@ -53,7 +52,6 @@
 }
 
 .signUp {
-
   @media screen and (min-width: 400px) {
     margin-left: 19px;
   }
@@ -71,7 +69,7 @@
   border: 1px solid $text-color;
 
   &:hover {
-    color: #fff;
+    color: $background-color-base;
     border-color: $text-color;
     background: $text-color;
   }
@@ -91,7 +89,6 @@
 }
 
 .userInfo {
-
   @media screen and (max-width: 767px) {
     margin-top: 5px;
 

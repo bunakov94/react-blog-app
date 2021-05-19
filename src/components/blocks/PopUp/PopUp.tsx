@@ -6,15 +6,16 @@ import Icon from '../../../assets/images/popup-icon.svg';
 
 import styles from './PopUp.module.scss';
 import button from '../../layout/Header/Header.module.scss';
-import style from '../../layout/Article/Article.module.scss';
+import style from '../Article/Article.module.scss';
 import blogApi from '../../../helpers/BlogApi';
 import { getUserToken } from '../../../helpers/localStorage';
+import { ROOT_ROUTE } from '../../../helpers/consts';
 
 interface PopUpProps {
   slug: string;
 }
 
-const PopUp: FC<PopUpProps> = ({ slug }: PopUpProps): JSX.Element => {
+const Delete: FC<PopUpProps> = ({ slug }: PopUpProps): JSX.Element => {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const token = getUserToken() || '';
@@ -24,7 +25,7 @@ const PopUp: FC<PopUpProps> = ({ slug }: PopUpProps): JSX.Element => {
   };
 
   const deleteArticle = () => {
-    blogApi.deleteArticle(token, slug).then(() => history.push('/'));
+    blogApi.deleteArticle(token, slug).then(() => history.push(ROOT_ROUTE));
   };
 
   return (
@@ -57,4 +58,4 @@ const PopUp: FC<PopUpProps> = ({ slug }: PopUpProps): JSX.Element => {
   );
 };
 
-export default PopUp;
+export default Delete;

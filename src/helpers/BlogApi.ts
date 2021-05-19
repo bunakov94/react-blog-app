@@ -1,119 +1,112 @@
-import { ICreateArticle } from '../types/article';
-
-const limit = (count: number, pageNumber: number) => `limit=${count}&offset=${pageNumber ? pageNumber * count : 0}`;
+import { IArticle, ICreateArticle } from '../types/article';
 
 class BlogApi {
-  API_BASE_URL = 'https://conduit.productionready.io/api/';
+  private readonly API_BASE_URL = 'https://conduit.productionready.io/api/';
 
-  async getResources(url: string) {
-    const res = await fetch(`${this.API_BASE_URL}${url}`);
-    if (!res.ok) {
-      throw new Error(`Could not fetch ${url}, received ${res.status}`);
-    }
+  private readonly API_ARTICLES_URL = 'articles';
+
+  private readonly API_USERS_URL = 'users';
+
+  private readonly API_USER_URL = 'user';
+
+  private readonly API_LOGIN_URL = '/login';
+
+  private readonly API_FAVORITE_URL = '/favorite';
+
+  generateOffset(count: number, page: number) {
+    return `?limit=${count}&offset=${page ? page * count : 0}`;
+  }
+
+  async getResources(url: string, token: string, method: string = 'GET', body?: any) {
+    const headers = {
+      'Content-Type': 'application/json;charset=utf-8',
+      Authorization: token ? `Token ${token}` : '',
+    };
+    const res = await fetch(`${this.API_BASE_URL}${url}`, {
+      method,
+      headers,
+      body,
+    });
     return res.json();
   }
 
-  async getPostsPage(pageNumber: number) {
-    const response = await this.getResources(`/articles?${limit(10, pageNumber)}`);
-    return response.articles;
+  async getArticlesPage(pageNumber: number, token: string): Promise<IArticle[]> {
+    const currentUrl = `${this.API_ARTICLES_URL}${this.generateOffset(10, pageNumber)}`;
+    const { articles } = await this.getResources(currentUrl, token);
+    return articles;
   }
 
-  async getPost(slug: string) {
-    const response = await this.getResources(`/articles/${slug}`);
-    return response.article;
+  async getArticle(slug: string, token: string) {
+    const { article } = await this.getResources(`${this.API_ARTICLES_URL}/${slug}`, token);
+    return article;
   }
 
   async registration(username: string, email: string, password: string) {
-    const res = await fetch(`${this.API_BASE_URL}users`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
+    const body = JSON.stringify({
+      user: {
+        username,
+        email,
+        password,
       },
-      body: JSON.stringify({
-        user: {
-          username,
-          email,
-          password,
-        },
-      }),
     });
-    return res.json();
+    return this.getResources(this.API_USERS_URL, '', 'POST', body);
   }
 
   async login(email: string, password: string) {
-    const res = await fetch(`${this.API_BASE_URL}users/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
+    const body = JSON.stringify({
+      user: {
+        email,
+        password,
       },
-      body: JSON.stringify({
-        user: {
-          email,
-          password,
-        },
-      }),
     });
-    return res.json();
+    return this.getResources(`${this.API_USERS_URL}${this.API_LOGIN_URL}`, '', 'POST', body);
   }
 
   async edit(email: string, password: string, username: string, image: string, token: string) {
-    const res = await fetch(`${this.API_BASE_URL}user`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        Authorization: `Token ${token}`,
+    const body = JSON.stringify({
+      user: {
+        email,
+        username,
+        password,
+        image,
       },
-      body: JSON.stringify({
-        user: {
-          email,
-          username,
-          password,
-          image,
-        },
-      }),
     });
-    return res.json();
+
+    return this.getResources(this.API_USER_URL, token, 'PUT', body);
   }
 
   async getUser(token: string) {
-    const res = await fetch(`${this.API_BASE_URL}user`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        Authorization: `Token ${token}`,
-      },
-    });
-    if (!res.ok) {
-      throw new Error(`Could not fetch, received ${res.status}`);
-    }
-    return res.json();
+    return this.getResources(this.API_USER_URL, token, '');
   }
 
   async createArticle(token: string, article: ICreateArticle) {
-    const res = await fetch(`${this.API_BASE_URL}articles`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        Authorization: `Token ${token}`,
+    const body = JSON.stringify({
+      article: {
+        ...article,
       },
-      body: JSON.stringify({
-        article: {
-          ...article,
-        },
-      }),
     });
-    return res.json();
+    return this.getResources(this.API_ARTICLES_URL, token, 'POST', body);
+  }
+
+  async editArticle(token: string, article: ICreateArticle, slug: string) {
+    const body = JSON.stringify({
+      article: {
+        ...article,
+      },
+    });
+    return this.getResources(`${this.API_ARTICLES_URL}/${slug}`, token, 'PUT', body);
   }
 
   async deleteArticle(token: string, slug: string) {
-    const res = await fetch(`${this.API_BASE_URL}articles/${slug}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        Authorization: `Token ${token}`,
-      },
-    });
-    return res.json();
+    return this.getResources(`${this.API_ARTICLES_URL}/${slug}`, token, 'DELETE');
+  }
+
+  async favoriteArticle(token: string, slug: string) {
+    return this.getResources(`${this.API_ARTICLES_URL}/${slug}${this.API_FAVORITE_URL}`, token, 'POST');
+  }
+
+  async unfavoriteArticle(token: string, slug: string) {
+    return this.getResources(`${this.API_ARTICLES_URL}/${slug}${this.API_FAVORITE_URL}`, token, 'DELETE');
   }
 }
 
