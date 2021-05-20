@@ -28,8 +28,8 @@ const LogIn: FC<LogInProps> = ({ setServerErrors, register, errors, serverErrors
       if (res.errors) throw new Error('Email or password invalid!');
       const { user } = res;
       setUserToken(user.token);
-      dispatch(setUser(res.user));
       history.push(ROOT_ROUTE);
+      dispatch(setUser(res.user));
     } catch (error) {
       setServerErrors({ password: error.message, email: error.message });
     }

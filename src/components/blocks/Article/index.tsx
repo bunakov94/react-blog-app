@@ -30,6 +30,9 @@ const Article: React.FC<ArticleProps> = ({
   isFullArticle,
 }: ArticleProps) => {
   const { articles } = useTypeSelector((state) => state.articles);
+  const {
+    user: { username },
+  } = useTypeSelector((state) => state.user);
   const url = `articles/${slug}`;
   const editUrl = `${slug}/edit`;
   const token = getUserToken();
@@ -94,7 +97,7 @@ const Article: React.FC<ArticleProps> = ({
         </header>
         <div className={style.descriptionBlock}>
           <div className={style.articleDescription}>{description}</div>
-          {isFullArticle && (
+          {isFullArticle && username === author?.username && (
             <div className={style.buttons}>
               <Delete slug={slug} />
               <Link to={editUrl} className={`${button.button} ${style.edit}`}>

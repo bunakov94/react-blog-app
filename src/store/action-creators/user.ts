@@ -27,4 +27,5 @@ export const removeUser = () => async (dispatch: Dispatch<UserAction>) => {
 
 export const setUser = (user: IUser) => async (dispatch: Dispatch<UserAction>) => {
   dispatch({ type: UserActionTypes.FETCH_USER_SUCCESS, payload: user });
+  window.location.reload();
 };

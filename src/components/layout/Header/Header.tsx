@@ -46,6 +46,7 @@ const Header: React.FC = () => {
               onClick={() => {
                 removeUserToken();
                 dispatch(removeUser());
+                window.location.reload();
               }}
               className={`${style.button} ${style.logOut}`}
             >
