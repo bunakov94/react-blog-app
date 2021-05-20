@@ -21,6 +21,7 @@
     - Redux-thunk
 ### 3. TypeScript
 ### 4. Rest API
-### 5. Form validation
-### 6. CSS(SCSS/CSS-modules)
-### 7. Markdown
+### 5. Authorization
+### 6. Form validation
+### 7. CSS(SCSS/CSS-modules)
+### 8. Markdown
